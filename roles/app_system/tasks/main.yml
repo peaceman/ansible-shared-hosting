@@ -1,0 +1,55 @@
+---
+# tasks file for app-system
+- name: Create system group {{ username }}
+  group:
+    name: "{{ username }}"
+    state: present
+
+- name: Create system user {{ username }}
+  user:
+    name: "{{ username }}"
+    home: /home/{{ username }}
+    group: "{{ username }}"
+    shell: /bin/bash
+    state: present
+
+- name: Add nginx user to the app users group {{ username }}
+  user:
+    name: "{{ nginx_user }}"
+    groups:
+      - "{{ username }}"
+    append: yes
+
+- name: Ensure home folder permissions /home/{{ username }}
+  file:
+    path: /home/{{ username }}
+    state: directory
+    mode: "0750"
+
+- name: Enable systemd service lingering {{ username }}
+  command: loginctl enable-linger {{ username }}
+
+- name: Ensure existing systemd user services directory
+  file:
+    path: /home/{{ username }}/.config/systemd/user
+    state: directory
+    recurse: true
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Create mysql config for {{ username }}
+  template:
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    src: my.cnf.j2
+    dest: /home/{{ username }}/.my.cnf
+  vars:
+    user: "{{ mysql_username }}"
+    password: "{{ mysql_password }}"
+    host: "{{ mysql_host }}"
+  when: mysql_username | length
+
+- name: Create logs folder for {{ username }}
+  file:
+    path: /home/{{ username }}/logs
+    state: directory

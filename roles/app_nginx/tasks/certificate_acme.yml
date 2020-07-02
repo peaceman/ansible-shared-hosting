@@ -1,0 +1,32 @@
+---
+- name: Check if cert exists in acme.sh folder {{ vhost.name }}
+  stat:
+    path: "{{ acme_home }}/{{ vhost.name }}/{{ vhost.name }}.cer"
+  register: source_cert_file
+
+- name: Read acme base domain
+  command: cat {{ acme_config_base_path }}/base-alias-domain.txt
+  register: base_alias_domain_file
+
+- name: Setup acme facts {{ vhost.name }}
+  set_fact:
+    acme_base_alias_domain: "{{ base_alias_domain_file.stdout | trim }}"
+    key_value: "" # necessary for the vscode-ansible checker
+
+- name: Generate certificate with acme dns-01 challenge {{ vhost.name }}
+  when: >
+    vhost.tls.acme.challenge == 'dns-01'
+    and (
+      source_cert_file.stat.exists == false or
+      vhost.tls.acme.force == true
+    )
+  include_tasks: certificate_acme_dns_01.yml
+
+- name: Generate certificate with acme http-01 challenge {{ vhost.name }}
+  when: >
+    vhost.tls.acme.challenge == 'http-01'
+    and (
+      source_cert_file.stat.exists == false or
+      vhost.tls.acme.force == true
+    )
+  include_tasks: certificate_acme_http_01.yml

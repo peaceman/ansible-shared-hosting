@@ -1,0 +1,9 @@
+[default]
+user = {{ user }}
+group = {{ user }}
+listen = /run/php/{{ version }}-{{ user }}.sock
+listen.owner = {{ nginx_user }}
+listen.group = {{ nginx_user }}
+
+pm = static
+pm.max_children = 1

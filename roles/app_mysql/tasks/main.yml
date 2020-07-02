@@ -1,0 +1,15 @@
+---
+# tasks file for app-mysql
+- name: Create mysql user
+  mysql_user:
+    name: "{{ username }}"
+    password: "{{ password }}"
+    priv: "{{ item[0] }}.*:ALL"
+    host: "{{ item[1] }}"
+    state: present
+  loop: "{{ databases | product(hosts) | list }}"
+
+- name: Create mysql databases
+  mysql_db:
+    name: "{{ databases }}"
+    state: present

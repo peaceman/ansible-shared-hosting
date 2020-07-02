@@ -1,0 +1,15 @@
+short_open_tag = On
+post_max_size = {{ php_post_max_size }}
+upload_max_filesize = {{ php_upload_max_filesize }}
+max_execution_time = {{ php_max_execution_time }}
+max_input_time = {{ php_max_input_time }}
+memory_limit = {{ php_memory_limit }}
+error_reporting = E_ALL
+date.timezone = "{{ timezone | default('Europe/Berlin') }}"
+expose_php = Off
+
+opcache.enable = 1
+opcache.memory_consumption = {{ php_opcache_memory_consumption }}
+opcache.max_accelerated_files = 100000
+opcache.validate_timestamps = {{ php_opcache_validate_timestamps }}
+cgi.fix_pathinfo = 0

@@ -1,0 +1,5 @@
+---
+- name: Uninstall php {{ php_version }}
+  apt:
+    state: absent
+    name: "{{ ['php' ~ php_version] | product(php_packages) | map('join', '-') | list }}"

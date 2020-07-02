@@ -1,0 +1,53 @@
+---
+# tasks file for app-nginx
+- name: Generate self signed certificate
+  include_tasks: certificate_self_signed.yml
+  loop: "{{ vhosts_defaulted }}"
+  loop_control:
+    loop_var: vhost
+
+- name: Add nginx vhost config {{ username }}
+  template:
+    src: "{{ template }}"
+    dest: "{{ nginx_config_dir }}/sites-available/{{ username }}.conf"
+  vars:
+    vhosts: "{{ vhosts_defaulted }}"
+
+- name: Enable nginx vhost config {{ username }}
+  file:
+    src: "{{ nginx_config_dir }}/sites-available/{{ username }}.conf"
+    dest: "{{ nginx_config_dir }}/sites-enabled/{{ username }}.conf"
+    state: link
+
+- name: Test nginx vhost config {{ username }}
+  command: nginx -t
+  register: nginx_test_result
+  ignore_errors: true
+
+- name: Check nginx test result and revert config if necessary
+  when: nginx_test_result.rc != 0
+  block:
+    - name: Disable faulty nginx vhost config {{ username }}
+      file:
+        path: "{{ nginx_config_dir }}/sites-enabled/{{ username }}.conf"
+        state: absent
+    - name: Trigger play failure caused by invalid nginx vhost config {{ username }}
+      fail:
+
+- name: Reload nginx
+  systemd:
+    name: "{{ nginx_service }}.service"
+    state: reloaded
+
+- name: Generate certificate
+  include_tasks: certificate.yml
+  loop: "{{ vhosts_defaulted }}"
+  loop_control:
+    loop_var: vhost
+
+- name: Ensure app folder exists
+  file:
+    state: directory
+    path: /home/{{ username }}/app
+    owner: "{{ username }}"
+    group: "{{ username }}"

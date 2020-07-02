@@ -1,0 +1,9 @@
+port 0
+unixsocket /home/{{ username }}/{{ socket_filename }}
+unixsocketperm 700
+daemonize no
+supervised auto
+loglevel notice
+logfile /home/{{ username }}/logs/{{ log_filename }}
+maxmemory {{ maxmemory }}
+maxmemory-policy {{ maxmemory_policy }}

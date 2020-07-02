@@ -1,0 +1,21 @@
+---
+# vars file for app-nginx
+vhost_defaults:
+  domains: []
+  canonical_domain: # optional, has to be contained in domains to get a certificate
+  tls:
+    source: self-signed # can be set to one of the following self-signed, acme, provided
+    cert: # used when source is provided
+    key: # used when source is provided
+    acme:
+      env: staging # one of production, staging
+      challenge: dns-01 # one of dns-01, http-01
+      dns:
+        alias_domain:
+        aws:
+          access_key_id:
+          secret_access_key:
+          dns_slowrate:
+      force: false
+
+vhosts_defaulted: "{{ cert_groups | map('peaceman.shared_hosting.rcombine', vhost_defaults, recursive=True) | list }}"

@@ -1,0 +1,22 @@
+[{{ username }}]
+user = {{ username }}
+group = {{ username }}
+listen = /run/php/{{ username }}.sock
+listen.owner = {{ nginx_user }}
+listen.group = {{ nginx_user }}
+
+pm = {{ pm_mode }}
+pm.max_children = {{ pm_max_children }}
+{% if pm_mode == 'dynamic' %}
+pm.start_servers = {{ pm_start_servers }}
+pm.min_spare_servers = {{ pm_min_spare_servers }}
+pm.max_spare_servers = {{ pm_start_servers }}
+pm.process_idle_timeout = {{ pm_process_idle_timeout }}
+{% endif %}
+
+php_admin_flag[log_errors] = On
+php_admin_value[error_log] = /home/{{ username }}/logs/php-error.log
+
+{% for directive in directives %}
+{{ directive }}
+{% endfor %}

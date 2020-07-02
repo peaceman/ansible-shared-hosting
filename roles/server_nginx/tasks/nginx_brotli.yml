@@ -1,0 +1,45 @@
+---
+- name: Install brotli dependencies
+  apt:
+    state: latest
+    name:
+      - git
+      - build-essential
+      - libpcre3
+      - libpcre3-dev
+      - zlib1g
+      - zlib1g-dev
+      - libssl-dev
+
+- name: Add mkbrotli script
+  copy:
+    dest: /usr/local/sbin/mkbrotli
+    src: mkbrotli
+    mode: "0755"
+
+- name: Determine nginx modules directory
+  shell:
+    executable: /bin/bash
+    cmd: |
+      [ -d /usr/share/nginx/modules ] && moddir=/usr/share/nginx/modules
+      [ -d $(nginx -V 2>&1 | grep -o 'prefix=[^ ]*' | sed 's/prefix=//')/modules ] && moddir="$(nginx -V 2>&1 | grep -o 'prefix=[^ ]*' | sed 's/prefix=//')/modules"
+      [ -d $(nginx -V 2>&1 | grep -o 'modules-path=[^ ]*' | sed 's/modules-path=//') ] && moddir="$(nginx -V 2>&1 | grep -o 'modules-path=[^ ]*' | sed 's/modules-path=//')"
+      [ "${moddir}" ] || { echo '!! missing modules directory, exiting...'; exit 1; }
+      echo "${moddir}"
+  register: determine_nginx_module_dir
+
+- name: Run the mkbrotli script
+  shell:
+    cmd: mkbrotli $(nginx -v 2>&1 | sed 's/^.*\///')
+    creates: "{{ determine_nginx_module_dir.stdout }}/ngx_http_brotli_static_module.so"
+
+- name: Add apt-hook for nginx modules
+  copy:
+    dest: /etc/apt/apt.conf.d/05nginxmodules
+    src: nginx_modules_hook
+
+- name: Add nginx mod preinstall script
+  copy:
+    dest: /usr/local/sbin/nginx-mod-preinstall
+    src: nginx_modules_preinstall
+    mode: "0755"

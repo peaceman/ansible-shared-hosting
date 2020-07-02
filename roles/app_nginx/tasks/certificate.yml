@@ -1,0 +1,11 @@
+---
+- name: Setup cert facts
+  include_tasks: certificate_facts.yml
+
+- name: Store provided certificate from config {{ vhost.name }}
+  when: vhost.tls.source == 'provided'
+  include_tasks: certificate_provided.yml
+
+- name: Generate certificates with acme {{ vhost.name }}
+  when: vhost.tls.source == 'acme'
+  include_tasks: certificate_acme.yml

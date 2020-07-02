@@ -1,0 +1,28 @@
+---
+- name: Install php {{ php_version }}
+  apt:
+    state: latest
+    name: "{{ ['php' ~ php_version] | product(php_packages) | map('join', '-') | list }}"
+  notify:
+    - restart php {{ php_version }}
+
+- name: Adjust default fpm pool {{ php_version }}
+  template:
+    src: php_fpm_default_pool.conf.j2
+    dest: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
+  vars:
+    user: www-data
+    version: "{{ php_version }}"
+  notify:
+    - restart php {{ php_version }}
+
+- name: Link custom config for php version {{ php_version }}
+  loop: "{{ ['fpm', 'cli'] }}"
+  loop_control:
+    loop_var: sapi
+  file:
+    path: /etc/php/{{ php_version }}/{{ sapi }}/conf.d/custom-configs.ini
+    src: /etc/php/custom-configs.ini
+    state: link
+  notify:
+    - restart php {{ php_version }}

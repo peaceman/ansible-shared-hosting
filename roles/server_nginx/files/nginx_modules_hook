@@ -1,0 +1,7 @@
+// Hook to build and install dynamic modules before NGINX upgrades
+// Script calls individual build scripts and passes back error codes
+// Place this file in /etc/apt/apt.conf.d/
+
+DPkg::Pre-Install-Pkgs {
+    "/usr/local/sbin/nginx-mod-preinstall";
+};

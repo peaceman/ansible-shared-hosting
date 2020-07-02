@@ -1,0 +1,4 @@
+---
+# defaults file for server_redis
+redis_enable_system_service: false
+redis_service: redis-server

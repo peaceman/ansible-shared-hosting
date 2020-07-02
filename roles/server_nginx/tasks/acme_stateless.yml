@@ -1,0 +1,14 @@
+---
+- name: Load acme thumbprint file for {{ env }}
+  shell: cat {{ acme_config_base_path }}/{{ env }}.yml
+  register: thumbprint_file_content
+
+- name: Set acme thumbprint as fact for {{ env }}
+  set_fact:
+    thumbprint: "{{ (thumbprint_file_content.stdout | from_yaml).thumbprint }}"
+    key_value: "" # necessary for the vscode-ansible checker
+
+- name: Create acme stateless nginx snippet for {{ env }}
+  template:
+    src: acme-stateless.conf.j2
+    dest: "{{ nginx_config_dir }}/snippets/acme-stateless-{{ env }}.conf"

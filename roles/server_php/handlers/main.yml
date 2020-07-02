@@ -1,0 +1,26 @@
+---
+# handlers file for server-php
+- name: restart php 7.4
+  service:
+    name: "php7.4-fpm"
+    state: restarted
+
+- name: restart php 7.3
+  service:
+    name: "php7.3-fpm"
+    state: restarted
+
+- name: restart php 7.2
+  service:
+    name: "php7.2-fpm"
+    state: restarted
+
+- name: restart php 7.1
+  service:
+    name: "php7.1-fpm"
+    state: restarted
+
+- name: restart php 7.0
+  service:
+    name: "php7.0-fpm"
+    state: restarted

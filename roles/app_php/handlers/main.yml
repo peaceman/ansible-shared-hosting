@@ -1,0 +1,6 @@
+---
+# handlers file for app-php
+- name: reload php fpm
+  systemd:
+    name: php{{ php_version }}-fpm.service
+    state: reloaded

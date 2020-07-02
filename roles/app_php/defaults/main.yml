@@ -1,0 +1,9 @@
+---
+# defaults file for app-php
+pm_mode: dynamic
+pm_max_children: 10
+pm_start_servers: 5
+pm_min_spare_servers: 3
+pm_process_idle_timeout: 10s
+
+fpm_directives: []

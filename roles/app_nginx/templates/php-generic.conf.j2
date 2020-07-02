@@ -1,0 +1,76 @@
+# {{ ansible_managed }}
+
+upstream {{ username }}-php {
+    server unix:/run/php/{{ username }}.sock;
+}
+
+{% for vhost in vhosts -%}
+    # force tls redirect
+    server {
+        listen 80;
+        listen [::]:80;
+
+        server_name {{ vhost.domains | join(' ') }};
+
+        include snippets/acme-stateless-{{ vhost.tls.acme.env }}.conf;
+
+        location / {
+            return {{ redirect_status_code }}
+                https://{{ vhost.canonical_domain | default('$host', true) }}$request_uri;
+        }
+    }
+
+    {% if vhost.canonical_domain -%}
+        # force canonical redirect
+        server {
+            {% include './partials/listen-ssl.j2' %}
+
+            server_name {{ vhost.domains | difference([vhost.canonical_domain]) | join(' ') }};
+
+            {% include './partials/ssl-cert.j2' %}
+
+            location / {
+                return {{ redirect_status_code }}
+                    https://{{ vhost.canonical_domain }}$request_uri;
+            }
+        }
+    {%- endif %}
+
+    {% if not vhost.canonical_domain or vhost.canonical_domain in vhost.domains -%}
+        # application
+        server {
+            {% include './partials/listen-ssl.j2' %}
+
+            server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
+
+            root /home/{{ username }}/app/{{ document_root }};
+            index {{ index_file }};
+
+            {% include './partials/logs.j2' %}
+
+            {% include './partials/ssl-cert.j2' %}
+
+            location / {
+                # try to serve file directly, fallback to index.php
+                try_files $uri /index.php$is_args$args;
+            }
+
+            location ~ \.php$ {
+                fastcgi_pass unix:/run/php/{{ username }}.sock;
+                fastcgi_split_path_info ^(.+\.php)(/.*)$;
+                include fastcgi_params;
+
+                fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+                fastcgi_param DOCUMENT_ROOT $realpath_root;
+            }
+
+            location ~ /\. {
+                deny all;
+            }
+
+            {% for item in configuration -%}
+                {{ item }}
+            {%- endfor %}
+        }
+    {%- endif %}
+{%- endfor %}

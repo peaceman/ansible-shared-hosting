@@ -1,0 +1,13 @@
+---
+# defaults file for app-nginx
+redirect_status_code: 301
+document_root: # relative to the app folder
+index_file: index.php
+template: php-generic.conf.j2
+configuration: []
+
+nginx_service: nginx
+nginx_config_dir: /etc/nginx
+acme_config_base_path: /root/.config/acme
+acme_home: /root/.acme.sh
+acme_path: /root/.acme.sh/acme.sh

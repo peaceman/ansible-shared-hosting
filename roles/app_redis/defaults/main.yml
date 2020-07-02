@@ -1,0 +1,9 @@
+---
+# defaults file for app-redis
+maxmemory: 256mb
+maxmemory_policy: volatile-lru
+socket_filename: redis.sock
+log_filename: redis.log
+config_filename: redis.conf
+service_name: redis
+redis_server_binary: /usr/bin/redis-server

@@ -1,0 +1,9 @@
+[Unit]
+Description=redis service {{ username }}
+
+[Service]
+Restart=always
+ExecStart={{ redis_server_binary }} /home/{{ username }}/{{ config_filename }}
+
+[Install]
+WantedBy=default.target

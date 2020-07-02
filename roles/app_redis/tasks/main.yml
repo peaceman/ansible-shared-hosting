@@ -1,0 +1,31 @@
+---
+# tasks file for app-redis
+- name: Add redis configuration
+  template:
+    src: redis.conf.j2
+    dest: /home/{{ username }}/{{ config_filename }}
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+    - restart redis
+
+- name: Add redis system service file
+  template:
+    src: redis.service.j2
+    dest: /home/{{ username }}/.config/systemd/user/{{ service_name }}.service
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  register: redis_service_file
+
+- name: Reload systemd daemon
+  include_tasks: systemd-reload.yml
+  when: redis_service_file.changed
+
+- name: Activate redis service
+  systemd:
+    scope: user
+    name: "{{ service_name }}.service"
+    state: started
+    enabled: yes
+  become: yes
+  become_user: "{{ username }}"

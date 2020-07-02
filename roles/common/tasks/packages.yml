@@ -1,0 +1,15 @@
+---
+- name: Install common packages
+  apt:
+    state: latest
+    name:
+      - vim
+      - tmux
+      - multitail
+      - htop
+      - vnstat
+      - openssl
+
+- name: Setup unattended upgrades
+  import_role:
+    name: jnv.unattended-upgrades

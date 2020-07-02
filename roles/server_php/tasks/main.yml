@@ -1,0 +1,28 @@
+---
+# tasks file for server-php
+- name: Add ondrej repository
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+
+- name: Add php custom configs ini
+  template:
+    dest: /etc/php/custom-configs.ini
+    src: php_custom_configs.ini.j2
+
+- name: Ensure /etc/php folder exists
+  file:
+    state: directory
+    path: /etc/php
+
+- name: Install php
+  loop: "{{ php_versions }}"
+  include_tasks: install_php_version.yml
+  vars:
+    php_version: "{{ item }}"
+
+- name: Uninstall php
+  loop: "{{ php_versions_all | difference(php_versions) }}"
+  include_tasks: uninstall_php_version.yml
+  vars:
+    php_version: "{{ item }}"

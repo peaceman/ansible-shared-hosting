@@ -1,0 +1,31 @@
+---
+- name: Check if account thumbprint config exists for {{ env }}
+  stat:
+    path: "{{ acme_config_base_path }}/{{ env }}.yml"
+  register: acme_thumbprint_config_file
+
+- name: Register and store account thumbprint for {{ env }}
+  block:
+    - name: Register {{ env }} account
+      command:
+        cmd: >
+          {{ acme_path }}
+          {{ '--staging' if env == 'staging' }}
+          --register-account
+      register: registration_result
+
+    - name: Parse {{ env }} thumbprint
+      set_fact:
+        thumbprint: "{{ (registration_result.stdout | regex_search(regexp, '\\1') or []) | first }}"
+        key_value: "" # necessary for the vscode-ansible checker
+      vars:
+        regexp: ACCOUNT_THUMBPRINT='([^']+)'
+
+    - name: Store {{ env }} account thumbprint
+      template:
+        src: templates/acme-account-thumbprint.yml.j2
+        dest: "{{ acme_config_base_path }}/{{ env }}.yml"
+      vars:
+        data:
+          thumbprint: "{{ thumbprint }}"
+  when: not acme_thumbprint_config_file.stat.exists

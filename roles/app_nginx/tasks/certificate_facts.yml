@@ -1,0 +1,8 @@
+---
+- name: Setup facts for {{ vhost.name }}
+  set_fact:
+    cert_folder: "{{ nginx_config_dir }}/ssl"
+    key_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.key"
+    csr_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.csr"
+    cert_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.crt"
+    key_value: "" # necessary for the vscode-ansible checker

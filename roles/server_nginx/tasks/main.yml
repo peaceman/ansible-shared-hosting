@@ -1,0 +1,39 @@
+---
+# tasks file for server-nginx
+- name: Install nginx
+  include_tasks: nginx_install.yml
+
+- name: Install brotli module
+  include_tasks: nginx_brotli.yml
+
+- name: Configure nginx
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_config_dir }}/nginx.conf"
+  notify:
+    - restart nginx
+
+- name: Add nginx global configuration
+  copy:
+    src: nginx/global
+    dest: "{{ nginx_config_dir }}"
+  notify:
+    - restart nginx
+
+- name: Generate dhparams file
+  command:
+    cmd: openssl dhparam -out {{ nginx_config_dir }}/dhparam.pem {{ nginx_ssl_dhparam_size }}
+    creates: "{{ nginx_config_dir }}/dhparam.pem"
+
+- name: Add nginx folders
+  file:
+    path: "{{ nginx_config_dir }}/{{ item }}"
+    state: directory
+  loop:
+    - sites-enabled
+    - sites-available
+    - snippets
+    - ssl
+
+- name: acme.sh
+  include_tasks: acme.yml

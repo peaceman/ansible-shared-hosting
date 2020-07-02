@@ -1,0 +1,9 @@
+---
+# handlers file for app-redis
+- name: restart redis
+  systemd:
+    name: "{{ service_name }}.service"
+    state: restarted
+    scope: user
+  become: true
+  become_user: "{{ username }}"

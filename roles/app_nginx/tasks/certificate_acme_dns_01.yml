@@ -1,0 +1,20 @@
+---
+- name: Issue certificate {{ vhost.name }}
+  shell:
+    cmd: |
+      {{ acme_path }} --issue \
+        --dns dns_aws \
+        {{ vhost.domains[:1] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \
+        --domain-alias {{ vhost.name }}.{{ acme_base_alias_domain }} \
+        {{ vhost.domains[1:] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \
+        {{ '--staging' if vhost.tls.acme.env == 'staging' }} \
+        {{ '--force' if vhost.tls.acme.force }}
+
+- name: Install certificate {{ vhost.name }}
+  command:
+    cmd: >
+      {{ acme_path }} --install-cert
+      {{ vhost.domains | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }}
+      --key-file {{ key_file_path }}
+      --fullchain-file {{ cert_file_path }}
+      --reloadcmd "systemctl reload {{ nginx_service }}.service"

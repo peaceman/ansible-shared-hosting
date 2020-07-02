@@ -1,0 +1,39 @@
+---
+- name: Update apt
+  apt:
+    update_cache: yes
+
+- name: Set hostname defined in inventory
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Update locale to en_US.utf-8
+  command:
+    cmd: update-locale LANG=en_US.utf-8
+
+- name: Update timezone
+  command:
+    cmd: timedatectl set-timezone {{ timezone }}
+
+- name: Configure permanent bash history with date and time
+  blockinfile:
+    marker: "#{mark} ansible permanent bash history"
+    state: present
+    content: "{{ lookup('file', 'files/permanent-bash-history') }}"
+    path: "{{ bashrc_config }}"
+
+- name: Global vim configuration
+  copy:
+    src: vimrc.local
+    dest: /etc/vim/vimrc.local
+
+- name: Provide XDG_RUNTIME_DIR for systemd user services
+  copy:
+    src: xdg-runtime.sh
+    dest: /etc/profile.d/xdg-runtime.sh
+
+- name: Configure sshd
+  include_tasks: sshd.yml
+
+- name: Install common packages
+  include_tasks: packages.yml

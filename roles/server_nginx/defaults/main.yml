@@ -1,0 +1,16 @@
+---
+# defaults file for server-nginx
+nginx_service: nginx
+nginx_user: nginx
+nginx_ssl_dhparam_size: 4096
+nginx_config_dir: /etc/nginx
+
+acme_home: /root/.acme.sh
+acme_path: /root/.acme.sh/acme.sh
+acme_account_email:
+acme_config_base_path: /root/.config/acme
+acme_git_repo: https://github.com/Neilpang/acme.sh.git
+acme_git_version: master
+acme_aws_access_key_id:
+acme_aws_secret_access_key:
+acme_base_alias_domain:

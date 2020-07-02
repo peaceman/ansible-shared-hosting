@@ -1,0 +1,15 @@
+---
+- name: Add apt key of nginx
+  apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+    state: present
+
+- name: Add nginx repository
+  apt_repository:
+    repo: "deb http://nginx.org/packages/mainline/ubuntu {{ ansible_lsb['codename'] }} nginx"
+    state: present
+
+- name: Install nginx
+  apt:
+    state: latest
+    name: nginx

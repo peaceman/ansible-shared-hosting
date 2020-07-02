@@ -1,0 +1,45 @@
+---
+- name: Ensure acme.sh config folder exists
+  file:
+    state: directory
+    path: "{{ acme_config_base_path }}"
+    recurse: true
+
+- name: Check if acme.sh is already installed
+  stat:
+    path: "{{ acme_path }}"
+  register: acme_file
+
+- name: Install acme.sh and register accounts
+  block:
+    - name: Create tmp dir for the acme.sh clone
+      tempfile:
+        state: directory
+      register: tmp_folder
+
+    - name: Clone acme.sh
+      git:
+        repo: "{{ acme_git_repo }}"
+        version: "{{ acme_git_version }}"
+        dest: "{{ tmp_folder.path }}"
+
+    - name: Install acme.sh
+      command:
+        argv:
+          - "{{ tmp_folder.path }}/acme.sh"
+          - --install
+          - --accountemail
+          - "{{ acme_account_email | mandatory }}"
+        creates: "{{ acme_path }}"
+        chdir: "{{ tmp_folder.path }}"
+
+    - name: Enable auto upgrade
+      command:
+        cmd: "{{ acme_path }} --upgrade --auto-upgrade 1"
+
+    - name: Remove tmp dir used for acme.sh clone
+      file:
+        path: "{{ tmp_folder.path }}"
+        state: absent
+      when: tmp_folder.path is defined
+  when: not acme_file.stat.exists
