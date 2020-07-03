@@ -76,3 +76,11 @@
   loop: "{{ crons }}"
   loop_control:
     loop_var: cron
+
+- name: Setup authorized ssh keys for {{ username }}
+  authorized_key:
+    comment: "{{ item.comment | default(omit) }}"
+    key: "{{ item.key }}"
+    state: "{{ item.state | default(omit) }}"
+    user: "{{ username }}"
+  loop: "{{ ssh_keys }}"

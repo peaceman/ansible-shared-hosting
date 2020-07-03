@@ -27,4 +27,8 @@ crons:
     weekday:
     month:
     special_time:
+
+ssh_keys:
+  - key: https://github.com/peaceman.keys
+    comment: peacemans key from github
 ```
