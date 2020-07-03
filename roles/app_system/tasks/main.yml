@@ -31,6 +31,7 @@
     cmd: loginctl show-user --property=Linger {{ username }}
   register: linger_state
   changed_when: false
+  ignore_errors: true # fails if the user is not logged in or lingering
 
 - name: Enable systemd service lingering {{ username }}
   command: loginctl enable-linger {{ username }}
