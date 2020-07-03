@@ -5,15 +5,15 @@
     repo: ppa:ondrej/php
     state: present
 
-- name: Add php custom configs ini
-  template:
-    dest: /etc/php/custom-configs.ini
-    src: php_custom_configs.ini.j2
-
 - name: Ensure /etc/php folder exists
   file:
     state: directory
     path: /etc/php
+
+- name: Add php custom configs ini
+  template:
+    dest: /etc/php/custom-configs.ini
+    src: php_custom_configs.ini.j2
 
 - name: Install php
   loop: "{{ php_versions }}"
