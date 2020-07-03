@@ -23,6 +23,7 @@
   command: nginx -t
   register: nginx_test_result
   ignore_errors: true
+  changed_when: nginx_test_result.rc != 0
 
 - name: Check nginx test result and revert config if necessary
   when: nginx_test_result.rc != 0

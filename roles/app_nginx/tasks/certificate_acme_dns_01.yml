@@ -9,6 +9,8 @@
         {{ vhost.domains[1:] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \
         {{ '--staging' if vhost.tls.acme.env == 'staging' }} \
         {{ '--force' if vhost.tls.acme.force }}
+  when: not source_cert_file.stat.exists or vhost.tls.acme.force
+  register: cert_issue_result
 
 - name: Install certificate {{ vhost.name }}
   command:
@@ -18,3 +20,4 @@
       --key-file {{ key_file_path }}
       --fullchain-file {{ cert_file_path }}
       --reloadcmd "systemctl reload {{ nginx_service }}.service"
+  when: cert_issue_result.changed

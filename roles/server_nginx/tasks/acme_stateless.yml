@@ -1,7 +1,9 @@
 ---
 - name: Load acme thumbprint file for {{ env }}
-  shell: cat {{ acme_config_base_path }}/{{ env }}.yml
+  command:
+    cmd: cat {{ acme_config_base_path }}/{{ env }}.yml
   register: thumbprint_file_content
+  changed_when: false
 
 - name: Set acme thumbprint as fact for {{ env }}
   set_fact:

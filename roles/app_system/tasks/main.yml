@@ -26,8 +26,15 @@
     state: directory
     mode: "0750"
 
+- name: Determine systemd service lingering state {{ username }}
+  command:
+    cmd: loginctl show-user --property=Linger {{ username }}
+  register: linger_state
+  changed_when: false
+
 - name: Enable systemd service lingering {{ username }}
   command: loginctl enable-linger {{ username }}
+  when: linger_state.stdout != 'Linger=yes'
 
 - name: Ensure existing systemd user services directory
   file:

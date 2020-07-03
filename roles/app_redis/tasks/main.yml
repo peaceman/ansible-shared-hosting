@@ -18,7 +18,7 @@
   register: redis_service_file
 
 - name: Reload systemd daemon
-  include_tasks: systemd-reload.yml
+  include_tasks: systemd_reload.yml
   when: redis_service_file.changed
 
 - name: Activate redis service

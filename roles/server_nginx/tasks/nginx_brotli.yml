@@ -20,13 +20,9 @@
 - name: Determine nginx modules directory
   shell:
     executable: /bin/bash
-    cmd: |
-      [ -d /usr/share/nginx/modules ] && moddir=/usr/share/nginx/modules
-      [ -d $(nginx -V 2>&1 | grep -o 'prefix=[^ ]*' | sed 's/prefix=//')/modules ] && moddir="$(nginx -V 2>&1 | grep -o 'prefix=[^ ]*' | sed 's/prefix=//')/modules"
-      [ -d $(nginx -V 2>&1 | grep -o 'modules-path=[^ ]*' | sed 's/modules-path=//') ] && moddir="$(nginx -V 2>&1 | grep -o 'modules-path=[^ ]*' | sed 's/modules-path=//')"
-      [ "${moddir}" ] || { echo '!! missing modules directory, exiting...'; exit 1; }
-      echo "${moddir}"
+    cmd: "{{ lookup('file', 'files/determine_nginx_module_dir') }}"
   register: determine_nginx_module_dir
+  changed_when: false
 
 - name: Run the mkbrotli script
   shell:
