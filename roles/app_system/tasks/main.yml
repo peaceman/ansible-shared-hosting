@@ -47,6 +47,7 @@
   loop:
     - .config/systemd/user
     - .local/bin
+    - logs
 
 - name: Create mysql config for {{ username }}
   template:
@@ -59,8 +60,3 @@
     password: "{{ mysql_password }}"
     host: "{{ mysql_host }}"
   when: mysql_username | length
-
-- name: Create logs folder for {{ username }}
-  file:
-    path: /home/{{ username }}/logs
-    state: directory
