@@ -1,0 +1,8 @@
+---
+# tasks file for server_mysql
+- name: Install mysql
+  import_role:
+    name: geerlingguy.mysql
+
+- name: Setup mysql backup
+  include_tasks: automysqlbackup.yml

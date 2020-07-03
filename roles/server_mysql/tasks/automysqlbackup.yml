@@ -1,0 +1,12 @@
+---
+- name: Install automysqlbackup
+  apt:
+    name: automysqlbackup
+    state: latest
+
+- name: Configure automysqlbackup
+  lineinfile:
+    path: /etc/default/automysqlbackup
+    regexp: "^#?\\s*CREATE_DATABASE"
+    line: CREATE_DATABASE=no
+    state: present
