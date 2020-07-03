@@ -1,0 +1,44 @@
+---
+- name: Determine systemd unit name from
+  command:
+    cmd: systemd-escape --path {{ borg_remote_storage_mount_path }}
+  register: unit_name
+  changed_when: false
+
+- name: Create credentials file to access the remote storage
+  when: borg_remote_storage_type == 'cifs'
+  template:
+    src: cifs_credentials.j2
+    dest: "{{ borg_remote_storage_credentials_path }}"
+    mode: '0700'
+  vars:
+    username: "{{ borg_remote_storage_username }}"
+    password: "{{ borg_remote_storage_password }}"
+
+- name: Choose remote storage mount options
+  set_fact:
+    mount_options: "{{ borg_remote_storage_mount_options[borg_remote_storage_type] }}"
+    key_value: "" # necessary for the vscode-ansible checker
+
+- name: Append cifs credentials to options
+  set_fact:
+    mount_options: "{{ mount_options + ['credentials=' ~ borg_remote_storage_credentials_path] }}"
+    key_value: "" # necessary for the vscode-ansible checker
+  when: borg_remote_storage_type == 'cifs'
+
+- name: Create systemd mount unit for the remote storage
+  template:
+    src: remote_storage.mount.j2
+    dest: /etc/systemd/system/{{ unit_name.stdout }}.mount
+
+- name: Create systemd automount unit for the remote storage
+  template:
+    src: remote_storage.automount.j2
+    dest: /etc/systemd/system/{{ unit_name.stdout }}.automount
+
+- name: Enable and start the systemd automount unit
+  systemd:
+    name: "{{ unit_name.stdout }}.automount"
+    state: started
+    enabled: yes
+    daemon_reload: yes

@@ -1,0 +1,5 @@
+---
+- name: Install borg and additional packages
+  apt:
+    state: latest
+    name: "{{ ['borgbackup'] + (borg_additional_packages[borg_remote_storage_type] | default([])) }}"

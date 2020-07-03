@@ -1,0 +1,10 @@
+---
+# tasks file for server_borg
+- name: Install borg and dependencies
+  include_tasks: install.yml
+
+- name: Setup remote storage
+  include_tasks: remote_storage.yml
+
+- name: Setup borg
+  include_tasks: borg.yml

@@ -1,0 +1,12 @@
+[Unit]
+Description=BackupSpace
+Requires=systemd-networkd.service
+After=network-online.target
+Wants=network-online.target
+
+[Mount]
+What={{ borg_remote_storage_address }}
+Where={{ borg_remote_storage_mount_path }}
+Options={{ mount_options | join(',') }}
+Type={{ borg_remote_storage_type }}
+TimeoutSec=30

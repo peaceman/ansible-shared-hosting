@@ -1,0 +1,44 @@
+---
+- name: Create borg config file
+  template:
+    src: borg_config.sh.j2
+    dest: /root/borg-config.sh
+
+- name: Init borg repo
+  shell:
+    cmd: |
+      source /root/borg-config.sh \
+      && borg init --encryption=repokey {{ borg_remote_storage_mount_path }}/{{ borg_repo_path }}
+    creates: "{{ borg_remote_storage_mount_path }}/{{ borg_repo_path }}"
+    executable: /bin/bash
+  register: borg_init
+
+- name: Backup the repo key
+  when: borg_init.changed
+  block:
+    - name: Export repo key
+      command:
+        cmd: borg key export {{ borg_remote_storage_mount_path }}/{{ borg_repo_path }} /root/borg-repo-key
+    - name: Download repo key
+      fetch:
+        src: /root/borg-repo-key
+        dest: borg-repo-keys/{{ ansible_host }}.txt
+        flat: yes
+
+- name: Create borg backup script
+  template:
+    src: borg_backup.sh.j2
+    dest: /root/borg-backup.sh
+    mode: '0700'
+
+- name: Setup borg cron
+  cron:
+    name: borg backup
+    job: /root/borg-backup.sh
+    minute: "{{ borg_cron.minute | default(omit) }}"
+    hour: "{{ borg_cron.hour | default(omit) }}"
+    day: "{{ borg_cron.day | default(omit) }}"
+    weekday: "{{ borg_cron.weekday | default(omit) }}"
+    month: "{{ borg_cron.month | default(omit) }}"
+    special_time: "{{ borg_cron.special_time | default(omit) }}"
+    state: present

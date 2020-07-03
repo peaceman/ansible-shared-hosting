@@ -1,0 +1,10 @@
+[Unit]
+Description=BackupSpace
+
+[Automount]
+Where={{ borg_remote_storage_mount_path }}
+DirectoryMode=0700
+TimeoutIdleSec=30
+
+[Install]
+WantedBy=multi-user.target

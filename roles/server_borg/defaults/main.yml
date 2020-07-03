@@ -1,0 +1,39 @@
+---
+# defaults file for server_borg
+borg_remote_storage_type:
+borg_remote_storage_username:
+borg_remote_storage_password:
+borg_remote_storage_mount_path: /mnt/backup-server
+borg_remote_storage_mount_options:
+  cifs:
+    - iocharset=utf8
+    - rw
+    - uid=root
+    - gid=root
+    - file_mode=0600
+    - dir_mode=0750
+    - noauto
+    - vers=3
+  nfs:
+    - vers=4
+borg_remote_storage_credentials_path: /etc/backup-credentials
+
+borg_repo_path: repo
+borg_passphrase:
+borg_excludes: []
+borg_includes: []
+
+borg_keep_daily: 7
+borg_keep_weekly: 4
+borg_keep_monthly: 6
+
+borg_cron:
+  minute: 23
+  hour: 3
+
+borg_additional_packages:
+  cifs:
+    - linux-generic
+    - cifs-utils
+  nfs:
+    - nfs-client
