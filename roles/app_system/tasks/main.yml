@@ -37,13 +37,16 @@
   command: loginctl enable-linger {{ username }}
   when: linger_state.stdout != 'Linger=yes'
 
-- name: Ensure existing systemd user services directory
+- name: Ensure existing user sub folders
   file:
-    path: /home/{{ username }}/.config/systemd/user
+    path: /home/{{ username }}/{{ item }}
     state: directory
     recurse: true
     owner: "{{ username }}"
     group: "{{ username }}"
+  loop:
+    - .config/systemd/user
+    - .local/bin
 
 - name: Create mysql config for {{ username }}
   template:

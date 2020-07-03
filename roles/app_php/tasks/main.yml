@@ -8,3 +8,15 @@
     - reload php fpm
   vars:
     directives: "{{ fpm_directives }}"
+
+- name: Determine full path ot php {{ php_version }} binary
+  command:
+    cmd: which php{{ php_version }}
+  register: php_binary
+  changed_when: false
+
+- name: Link used php {{ php_version }} binary into user path
+  file:
+    dest: /home/{{ username }}/.local/bin/php
+    src: "{{ php_binary.stdout }}"
+    state: link
