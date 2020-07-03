@@ -1,0 +1,10 @@
+---
+roles:
+  - src: jnv.unattended-upgrades
+    version: v1.8.0
+  - src: geerlingguy.mysql
+    version: 3.1.0
+
+collections:
+  - name: peaceman.shared_hosting
+    version: 0.0.2

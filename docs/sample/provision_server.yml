@@ -1,0 +1,22 @@
+---
+# Provision server
+- hosts: all
+  tasks:
+    - import_role:
+        name: peaceman.shared_hosting.common
+    - import_role:
+        name: peaceman.shared_hosting.server_borg
+
+- hosts: web
+  tasks:
+    - import_role:
+        name: peaceman.shared_hosting.server_nginx
+    - import_role:
+        name: peaceman.shared_hosting.server_php
+    - import_role:
+        name: peaceman.shared_hosting.server_redis
+
+- hosts: db
+  tasks:
+    - import_role:
+        name: peaceman.shared_hosting.server_mysql

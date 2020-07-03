@@ -2,6 +2,9 @@
 
 Collection of roles to provision a web shared hosting environment
 
+## Sample Usage
+Take a look at docs/sample folder for a single host example
+
 ## Dependencies
 ### Roles
 

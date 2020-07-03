@@ -1,0 +1,15 @@
+---
+hostname: at.n2305.link
+ansible_host: at.n2305.link
+
+borg_remote_storage_type: cifs
+borg_remote_storage_address: redacted
+borg_remote_storage_mount_path: /mnt/backup-server
+borg_remote_storage_username: redacted
+borg_remote_storage_password: redacted
+borg_passphrase: this should be random
+borg_excludes:
+  - /root/.config
+
+borg_includes:
+  - /root/.acme.sh

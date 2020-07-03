@@ -1,0 +1,3 @@
+---
+# Provision apps
+- import_playbook: app_alpha.yml

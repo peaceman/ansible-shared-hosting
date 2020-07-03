@@ -1,0 +1,42 @@
+---
+- name: Include app vars
+  hosts: all
+  tasks:
+    - include_vars: vars/app_alpha.yml
+
+- name: DB Server Provisioning
+  hosts: db
+  tasks:
+    - include_role:
+        name: peaceman.shared_hosting.app_mysql
+      vars:
+        username: "{{ mysql['username'] }}"
+        password: "{{ mysql['password'] }}"
+        databases: "{{ mysql['databases'] }}"
+        hosts: "{{ groups['web'] | map('extract', hostvars, ['ansible_host']) | list + ['localhost'] }}"
+
+- name: Web Server Provisioning
+  hosts: web
+  tasks:
+    - include_role:
+        name: peaceman.shared_hosting.app_system
+      vars:
+        username: "{{ system['username'] }}"
+        mysql_username: "{{ mysql['username'] }}"
+        mysql_password: "{{ mysql['password'] }}"
+        mysql_host: "{{ groups['db'] | map('extract', hostvars, ['ansible_host']) | first }}"
+        crons: "{{ system['crons'] | default([])}}"
+        ssh_keys: "{{ system['ssh_keys'] | default([]) }}"
+    - include_role:
+        name: peaceman.shared_hosting.app_redis
+      vars:
+        username: "{{ system['username'] }}"
+    - include_role:
+        name: peaceman.shared_hosting.app_php
+      vars:
+        username: "{{ system['username'] }}"
+        php_version: "{{ php['version'] }}"
+    - include_role:
+        name: peaceman.shared_hosting.app_nginx
+      vars:
+        username: "{{ system['username'] }}"

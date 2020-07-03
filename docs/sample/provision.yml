@@ -1,0 +1,4 @@
+---
+# Provision server and apps
+- import_playbook: provision_server.yml
+- import_playbook: provision_apps.yml

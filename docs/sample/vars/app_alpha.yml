@@ -1,0 +1,53 @@
+---
+mysql:
+  username: alpha
+  password: "this should be random"
+  databases:
+    - alpha
+
+system:
+  username: alpha
+  ssh_keys:
+    - key: https://github.com/peaceman.keys
+      comment: peacemans key from github
+      state: absent
+  crons:
+    - name: check php version
+      job: php -v >> logs/php-version.txt
+    - name: check php binary path
+      job: which php >> logs/php-path.txt
+      minute: 5
+    - name: check cron env
+      job: env >> logs/cron-env.txt
+
+php:
+  version: 7.4
+
+cert_groups:
+  - name: foo.at.n2305.link
+    domains:
+      - foo.at.n2305.link
+      - www.foo.at.n2305.link
+    canonical_domain: www.foo.at.n2305.link
+    tls:
+      source: acme
+      acme:
+        challenge: http-01
+  - name: a.at.n2305.link
+    domains:
+      - a.at.n2305.link
+    tls:
+      source: acme
+      acme:
+        challenge: dns-01
+  - name: wc.at.n2305.link
+    domains:
+      - b.at.n2305.link
+      - c.at.n2305.link
+      - d.at.n2305.link
+    wildcard_domain: at.n2305.link
+    canonical_domain: c.at.n2305.link
+    tls:
+      source: acme
+      acme:
+        challenge: dns-01
