@@ -5,4 +5,5 @@
     key_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.key"
     csr_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.csr"
     cert_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.crt"
+    cert_domains: "{{ ['*.' ~ vhost.wildcard_domain, vhost.wildcard_domain] if vhost.wildcard_domain else vhost.domains }}"
     key_value: "" # necessary for the vscode-ansible checker

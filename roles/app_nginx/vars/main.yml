@@ -3,6 +3,7 @@
 vhost_defaults:
   domains: []
   canonical_domain: # optional, has to be contained in domains to get a certificate
+  wildcard_domain: # optional
   tls:
     source: self-signed # can be set to one of the following self-signed, acme, provided
     cert: # used when source is provided

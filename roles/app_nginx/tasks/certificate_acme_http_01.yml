@@ -3,7 +3,7 @@
   command:
     cmd: >
       {{ acme_path }} --issue
-      {{ vhost.domains | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }}
+      {{ cert_domains | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }}
       --stateless
       {{ '--staging' if vhost.tls.acme.env == 'staging' }}
       {{ '--force' if vhost.tls.acme.force }}
@@ -14,7 +14,7 @@
   command:
     cmd: >
       {{ acme_path }} --install-cert
-      {{ vhost.domains | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }}
+      {{ cert_domains | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }}
       --key-file {{ key_file_path }}
       --fullchain-file {{ cert_file_path }}
       --reloadcmd "systemctl reload {{ nginx_service }}.service"

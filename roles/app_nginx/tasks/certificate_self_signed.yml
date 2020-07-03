@@ -20,7 +20,7 @@
         path: "{{ csr_file_path }}"
         privatekey_path: "{{ key_file_path }}"
         state: present
-        subject_alt_name: "{{ vhost.domains | map('regex_replace', '^', 'DNS:') | list }}"
+        subject_alt_name: "{{ cert_domains | map('regex_replace', '^', 'DNS:') | list }}"
     - name: Sign CSR file for {{ vhost.name }} to create a certificate
       openssl_certificate:
         path: "{{ cert_file_path }}"

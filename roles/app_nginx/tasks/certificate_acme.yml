@@ -1,7 +1,12 @@
 ---
+- name: Determine first domain used in cert for acme.sh file storage
+  set_fact:
+    first_domain: "{{ cert_domains | first }}"
+    key_value: "" # necessary for the vscode-ansible checker
+
 - name: Check if cert exists in acme.sh folder {{ vhost.name }}
   stat:
-    path: "{{ acme_home }}/{{ vhost.name }}/{{ vhost.name }}.cer"
+    path: "{{ acme_home }}/{{ first_domain }}/{{ first_domain }}.cer"
   register: source_cert_file
 
 - name: Read acme base domain
