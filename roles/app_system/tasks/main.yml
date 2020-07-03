@@ -60,3 +60,19 @@
     password: "{{ mysql_password }}"
     host: "{{ mysql_host }}"
   when: mysql_username | length
+
+- name: Setup crons for {{ username }}
+  cron:
+    name: "{{ cron.name }}"
+    job: bash -l {{ cron.job }}
+    minute: "{{ cron.minute | default(omit) }}"
+    hour: "{{ cron.hour | default(omit) }}"
+    day: "{{ cron.day | default(omit) }}"
+    weekday: "{{ cron.weekday | default(omit) }}"
+    month: "{{ cron.month | default(omit) }}"
+    special_time: "{{ cron.special_time | default(omit) }}"
+    state: present
+    user: "{{ username }}"
+  loop: "{{ crons }}"
+  loop_control:
+    loop_var: cron

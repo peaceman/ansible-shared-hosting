@@ -18,4 +18,13 @@ nginx_user:
 mysql_username:
 mysql_password:
 mysql_host:
+crons:
+  - name: check php version
+    job: php -v >> logs/php-version.txt
+    minute:
+    hour:
+    day:
+    weekday:
+    month:
+    special_time:
 ```
