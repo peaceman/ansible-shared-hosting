@@ -9,6 +9,11 @@
   vars:
     directives: "{{ fpm_directives }}"
 
+- name: Reload php{{ php_version }}-fpm
+  systemd:
+    name: php{{ php_version }}-fpm.service
+    state: reloaded
+
 - name: Determine full path ot php {{ php_version }} binary
   command:
     cmd: which php{{ php_version }}
