@@ -49,4 +49,8 @@ document_root: # relative to the app folder, without leading slash
 index_file: index.php
 template: php-generic.conf.j2
 configuration: []
+
+ip_addresses: # optional, if defined will only listen on those addresses
+  ipv4: []
+  ipv6: []
 ```

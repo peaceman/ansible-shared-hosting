@@ -7,8 +7,7 @@ upstream {{ username }}-php {
 {% for vhost in vhosts -%}
     # force tls redirect
     server {
-        listen 80;
-        listen [::]:80;
+        {% include './partials/listen.j2' %}
 
         server_name {{ vhost.domains | join(' ') }};
 
