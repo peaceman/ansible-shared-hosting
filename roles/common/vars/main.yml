@@ -5,5 +5,11 @@ packages_default:
   - htop
   - vnstat
   - openssl
+  - ncdu
+  - tree
+  - iftop
+  - iotop
+  - ca-certificates
+  - git
 
 packages_to_install: "{{ packages_default + packages }}"
