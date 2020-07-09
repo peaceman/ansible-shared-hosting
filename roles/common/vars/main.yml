@@ -1,0 +1,9 @@
+packages_default:
+  - vim
+  - tmux
+  - multitail
+  - htop
+  - vnstat
+  - openssl
+
+packages_to_install: "{{ packages_default + packages }}"

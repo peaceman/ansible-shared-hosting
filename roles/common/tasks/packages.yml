@@ -2,14 +2,7 @@
 - name: Install common packages
   apt:
     state: latest
-    name:
-      - vim
-      - tmux
-      - multitail
-      - htop
-      - vnstat
-      - openssl
-      - unzip
+    name: "{{ packages_to_install }}"
 
 - name: Setup unattended upgrades
   import_role:
