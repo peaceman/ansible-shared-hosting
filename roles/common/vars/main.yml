@@ -11,5 +11,6 @@ packages_default:
   - iotop
   - ca-certificates
   - git
+  - sendmail
 
 packages_to_install: "{{ packages_default + packages }}"
