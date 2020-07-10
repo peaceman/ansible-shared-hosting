@@ -14,3 +14,43 @@
     line: "UsePAM yes"
     state: present
   notify: restart sshd
+
+- name: Disable X11 forwarding
+  lineinfile:
+    path: "{{ sshd_config }}"
+    regexp: "^#?X11Forwarding"
+    line: "X11Forwarding no"
+    state: present
+  notify: restart sshd
+
+- name: Configure KexAlgorithms
+  lineinfile:
+    path: "{{ sshd_config }}"
+    regexp: "^#?KexAlgorithms"
+    line: "KexAlgorithms {{ sshd_kexalgorithms | join(',') }}"
+    state: present
+  notify: restart sshd
+
+- name: Configure Ciphers
+  lineinfile:
+    path: "{{ sshd_config }}"
+    regexp: "^#?Ciphers"
+    line: "Ciphers {{ sshd_ciphers | join(',') }}"
+    state: present
+  notify: restart sshd
+
+- name: Configure MACs
+  lineinfile:
+    path: "{{ sshd_config }}"
+    regexp: "^#?MACs"
+    line: "MACs {{ sshd_macs | join(',') }}"
+    state: present
+  notify: restart sshd
+
+- name: Configure HostKeyAlgorithms
+  lineinfile:
+    path: "{{ sshd_config }}"
+    regexp: "^#?HostKeyAlgorithms"
+    line: "HostKeyAlgorithms {{ sshd_hostkeyalgorithms | join(',') }}"
+    state: present
+  notify: restart sshd
