@@ -22,4 +22,5 @@ unattended_origins_patterns:
   - 'o=Ubuntu,a=${distro_codename}'
   - 'o=Ubuntu,a=${distro_codename}-updates'
 unattended_email: root
+packages: []
 ```
