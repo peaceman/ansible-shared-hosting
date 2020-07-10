@@ -3,3 +3,6 @@
   service:
     name: "{{ sshd_service }}"
     state: restarted
+
+- name: rebuild aliases
+  command: newaliases

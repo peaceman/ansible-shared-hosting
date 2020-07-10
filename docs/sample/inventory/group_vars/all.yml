@@ -11,3 +11,5 @@ acme_aws_secret_access_key: redacted
 mysql_root_password: "this should be random"
 mysql_innodb_buffer_pool_size: 1024M
 mysql_innodb_log_file_size: 256M
+
+mail_aliases_root: nixalio@gmail.com

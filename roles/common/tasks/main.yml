@@ -40,3 +40,11 @@
 
 - name: Configure firewall
   include_tasks: ufw.yml
+
+- name: Configure mail aliases
+  lineinfile:
+    path: /etc/aliases
+    regexp: "root: "
+    line: "root: {{ mail_aliases_root | mandatory }}"
+    state: present
+  notify: rebuild aliases
