@@ -37,3 +37,6 @@
 
 - name: Install common packages
   include_tasks: packages.yml
+
+- name: Configure firewall
+  include_tasks: ufw.yml

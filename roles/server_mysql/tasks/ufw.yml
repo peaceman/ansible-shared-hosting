@@ -1,0 +1,16 @@
+---
+- name: Collect web host ips
+  set_fact:
+    key_value: "" # necessary for the vscode-ansible checker
+    ipv4_addresses: "{{ groups['web'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | select('defined') | list }}"
+    ipv6_addresses: "{{ groups['web'] | map('extract', hostvars, ['ansible_default_ipv6', 'address']) | select('defined') | list }}"
+
+- name: UFW allow mysql access from web hosts
+  ufw:
+    from_ip: "{{ ip }}"
+    rule: allow
+    port: "{{ mysql_port }}"
+    comment: allow access from web hosts
+  loop: "{{ ipv6_addresses + ipv4_addresses }}"
+  loop_control:
+    loop_var: ip

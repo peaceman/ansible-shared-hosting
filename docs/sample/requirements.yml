@@ -4,6 +4,8 @@ roles:
     version: v1.8.0
   - src: geerlingguy.mysql
     version: 3.1.0
+  - src: weareinteractive.ufw
+    version: 1.10.0
 
 collections:
   - name: peaceman.shared_hosting

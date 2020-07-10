@@ -37,3 +37,6 @@
 
 - name: acme.sh
   include_tasks: acme.yml
+
+- name: Configure firewall for nginx
+  include_tasks: ufw.yml

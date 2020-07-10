@@ -1,0 +1,11 @@
+---
+- name: UFW
+  include_role:
+    name: weareinteractive.ufw
+  vars:
+    ufw_rules:
+      - { from_ip: '127.0.0.1/8', rule: allow, comment: 'allow localhost ipv4'}
+      - { from_ip: '::1/128', rule: allow, comment: 'allow localhost ipv6'}
+    ufw_applications:
+      - { name: OpenSSH }
+    ufw_reset: no

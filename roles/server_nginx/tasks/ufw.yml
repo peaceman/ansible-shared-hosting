@@ -1,0 +1,9 @@
+---
+- name: UFW nginx
+  include_role:
+    name: weareinteractive.ufw
+  vars:
+    ufw_reset: no
+    ufw_rules:
+      - { port: 80, rule: allow }
+      - { port: 443, rule: allow }

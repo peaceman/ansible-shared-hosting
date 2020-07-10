@@ -6,3 +6,6 @@
 
 - name: Setup mysql backup
   include_tasks: automysqlbackup.yml
+
+- name: Configure firewall for mysql
+  include_tasks: ufw.yml
