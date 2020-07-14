@@ -12,6 +12,8 @@ Take a look at docs/sample folder for a single host example
 # needed by common
 - src: jnv.unattended-upgrades
   version: v1.8.0
+- src: weareinteractive.ufw
+  version: 1.10.0
 # needed by server_mysql
 - src: geerlingguy.mysql
   version: 3.1.0

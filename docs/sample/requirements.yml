@@ -9,4 +9,3 @@ roles:
 
 collections:
   - name: peaceman.shared_hosting
-    version: 0.0.2
