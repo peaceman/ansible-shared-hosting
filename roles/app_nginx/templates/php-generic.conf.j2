@@ -44,6 +44,8 @@ upstream {{ username }}-php {
 
             root {{ document_root }};
             index {{ index_file }};
+            autoindex {{ autoindex }};
+            charset {{ charset }};
 
             {% include './partials/logs.j2' %}
 

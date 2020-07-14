@@ -47,6 +47,8 @@ cert_groups:
 redirect_status_code: 301
 document_root: # relative to the app folder, without leading slash
 index_file: index.php
+autoindex: "off"
+charset: UTF-8
 template: php-generic.conf.j2
 configuration: []
 
