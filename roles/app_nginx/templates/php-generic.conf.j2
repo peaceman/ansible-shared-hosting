@@ -42,7 +42,7 @@ upstream {{ username }}-php {
 
             server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 
-            root /home/{{ username }}/app/{{ document_root }};
+            root {{ document_root }};
             index {{ index_file }};
 
             {% include './partials/logs.j2' %}
