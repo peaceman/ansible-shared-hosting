@@ -1,0 +1,15 @@
+{% extends 'php-generic.conf.j2' %}
+{% block server_end %}
+location /recovery/install {
+    index index.php;
+    try_files $uri /recovery/install/index.php$is_args$args;
+}
+
+location /recovery/update/ {
+    location /recovery/update/assets {
+    }
+    if (!-e $request_filename){
+        rewrite . /recovery/update/index.php last;
+    }
+}
+{% endblock %}
