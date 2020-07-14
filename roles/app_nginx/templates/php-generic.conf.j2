@@ -55,7 +55,7 @@ upstream {{ username }}-php {
             }
 
             location ~ \.php$ {
-                fastcgi_pass unix:/run/php/{{ username }}.sock;
+                fastcgi_pass {{ username }}-php;
                 fastcgi_split_path_info ^(.+\.php)(/.*)$;
                 include fastcgi_params;
 
