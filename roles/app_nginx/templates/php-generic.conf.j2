@@ -38,6 +38,7 @@ upstream {{ username }}-php {
     {% if not vhost.canonical_domain or vhost.canonical_domain in vhost.domains -%}
         # application
         server {
+            {% block server_begin %}{% endblock %}
             {% include './partials/listen-ssl.j2' %}
 
             server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
@@ -51,6 +52,7 @@ upstream {{ username }}-php {
 
             {% include './partials/ssl-cert.j2' %}
 
+            {% block server_main %}
             location / {
                 # try to serve file directly, fallback to index.php
                 try_files $uri /index.php$is_args$args;
@@ -64,6 +66,7 @@ upstream {{ username }}-php {
                 fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
                 fastcgi_param DOCUMENT_ROOT $realpath_root;
             }
+            {% endblock %}
 
             location ~ /\. {
                 deny all;
@@ -72,6 +75,8 @@ upstream {{ username }}-php {
             {% for item in configuration -%}
                 {{ item }}
             {%- endfor %}
+
+            {% block server_end %}{% endblock %}
         }
     {%- endif %}
 {%- endfor %}
