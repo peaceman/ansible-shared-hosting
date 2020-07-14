@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+{% for alias in bash_aliases_global %}
+alias {{ alias.alias }}={{ alias.command | quote }}
+{% endfor %}

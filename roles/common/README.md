@@ -27,5 +27,10 @@ unattended_origins_patterns:
 unattended_email: root
 packages: []
 mail_aliases_root: # mandatory
-ssh_keys_root: []
+ssh_keys_root:
+  - key: https://github.com/peaceman.keys
+    comment: peaceman ssh key from github
+bash_aliases_global:
+  - alias: foo
+    command: date
 ```

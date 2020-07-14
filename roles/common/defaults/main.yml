@@ -34,3 +34,4 @@ unattended_origins_patterns:
 unattended_email: root
 packages: []
 ssh_keys_root: []
+bash_aliases_global: []

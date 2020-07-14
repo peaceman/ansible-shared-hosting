@@ -56,3 +56,9 @@
     state: "{{ item.state | default(omit) }}"
     user: root
   loop: "{{ ssh_keys_root }}"
+
+- name: Configure global bash aliases
+  template:
+    src: "bash-aliases.sh.j2"
+    dest: "/etc/profile.d/bash-aliases.sh"
+    validate: bash -n %s
