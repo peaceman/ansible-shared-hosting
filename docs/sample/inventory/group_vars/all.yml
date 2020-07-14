@@ -13,3 +13,6 @@ mysql_innodb_buffer_pool_size: 1024M
 mysql_innodb_log_file_size: 256M
 
 mail_aliases_root: nixalio@gmail.com
+ssh_keys_root:
+  - key: https://github.com/peaceman.keys
+    comment: peacemans key from github

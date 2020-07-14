@@ -6,6 +6,9 @@ Ansible Role: common
 * Configures bash history
 * Configures vim
 * Sets timezone & hostname
+* Configures firewall
+* Configures mail alias for root
+* Manages authorized ssh keys for root
 
 Role Variables
 --------------
@@ -24,4 +27,5 @@ unattended_origins_patterns:
 unattended_email: root
 packages: []
 mail_aliases_root: # mandatory
+ssh_keys_root: []
 ```
