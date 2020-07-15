@@ -12,5 +12,6 @@ packages_default:
   - ca-certificates
   - git
   - sendmail
+  - unzip
 
 packages_to_install: "{{ packages_default + packages }}"
