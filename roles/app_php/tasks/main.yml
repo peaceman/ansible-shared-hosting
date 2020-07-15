@@ -4,8 +4,6 @@
   template:
     src: pool.conf.j2
     dest: /etc/php/{{ php_version }}/fpm/pool.d/{{ username }}.conf
-  notify:
-    - reload php fpm
   vars:
     directives: "{{ fpm_directives }}"
 
