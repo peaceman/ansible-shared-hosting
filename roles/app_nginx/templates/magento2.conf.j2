@@ -1,7 +1,7 @@
 {# source https://github.com/magento/magento2/blob/2.4-develop/nginx.conf.sample #}
 {% extends 'php-generic.conf.j2' %}
 {% block server_begin %}
-set $MAGE_ROOT {{ document_root }};
+set $MAGE_ROOT {{ document_root_full }};
 set $MAGE_DEBUG_SHOW_ARGS {{ mage_debug_show_args | default(0) }};
 {% endblock %}
 {% block server_main %}

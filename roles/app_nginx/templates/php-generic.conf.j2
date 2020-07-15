@@ -43,7 +43,7 @@ upstream {{ username }}-php {
 
             server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 
-            root {{ document_root }};
+            root {{ document_root_full }};
             index {{ index_file }};
             autoindex {{ autoindex }};
             charset {{ charset }};

@@ -6,18 +6,13 @@
   loop_control:
     loop_var: vhost
 
-- name: Setup supplied document root var
-  set_fact:
-    supplied_document_root: "{{ document_root }}"
-    key_value: "" # necessary for the vscode-ansible checker
-
 - name: Add nginx vhost config {{ username }}
   template:
     src: "{{ template }}"
     dest: "{{ nginx_config_dir }}/sites-available/{{ username }}.conf"
   vars:
     vhosts: "{{ vhosts_defaulted }}"
-    document_root: /home/{{ username }}/app/{{ supplied_document_root }}
+    document_root_full: /home/{{ username }}/app/{{ document_root }}
 
 - name: Enable nginx vhost config {{ username }}
   file:
