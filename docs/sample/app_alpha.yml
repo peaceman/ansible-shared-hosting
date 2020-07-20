@@ -13,7 +13,6 @@
         username: "{{ mysql['username'] }}"
         password: "{{ mysql['password'] }}"
         databases: "{{ mysql['databases'] }}"
-        hosts: "{{ groups['web'] | map('extract', hostvars, ['ansible_host']) | list + ['localhost'] }}"
 
 - name: Web Server Provisioning
   hosts: web

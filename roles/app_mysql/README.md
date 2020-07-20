@@ -17,6 +17,4 @@ username:
 password:
 databases:
   -
-hosts:
-  -
 ```
