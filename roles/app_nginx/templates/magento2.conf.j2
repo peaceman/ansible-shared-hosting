@@ -4,6 +4,9 @@
 set $MAGE_ROOT {{ document_root_full }};
 set $MAGE_DEBUG_SHOW_ARGS {{ mage_debug_show_args | default(0) }};
 {% endblock %}
+{% block server_document_root %}
+root $MAGE_ROOT/pub;
+{% endblock %}
 {% block server_main %}
 error_page 404 403 = /errors/404.php;
 
