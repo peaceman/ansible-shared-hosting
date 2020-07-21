@@ -1,0 +1,63 @@
+# {{ ansible_managed }}
+
+{% for vhost in vhosts -%}
+    # force tls redirect
+    server {
+        {% include './partials/listen.j2' %}
+
+        server_name {{ vhost.domains | join(' ') }};
+
+        include snippets/acme-stateless-{{ vhost.tls.acme.env }}.conf;
+
+        location / {
+            return {{ redirect_status_code }}
+                https://{{ vhost.canonical_domain | default('$host', true) }}$request_uri;
+        }
+    }
+
+    {% if vhost.canonical_domain -%}
+        # force canonical redirect
+        server {
+            {% include './partials/listen-ssl.j2' %}
+
+            server_name {{ vhost.domains | difference([vhost.canonical_domain]) | join(' ') }};
+
+            {% include './partials/ssl-cert.j2' %}
+
+            location / {
+                return {{ redirect_status_code }}
+                    https://{{ vhost.canonical_domain }}$request_uri;
+            }
+        }
+    {%- endif %}
+
+    {% if not vhost.canonical_domain or vhost.canonical_domain in vhost.domains -%}
+        # application
+        server {
+            {% block server_begin %}{% endblock %}
+            {% include './partials/listen-ssl.j2' %}
+
+            server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
+
+            {% block server_document_root %}root {{ document_root_full }};{% endblock %}
+
+            index {{ index_file }};
+            autoindex {{ autoindex }};
+            charset {{ charset }};
+
+            {% include './partials/logs.j2' %}
+
+            {% include './partials/ssl-cert.j2' %}
+
+            location ~ /\. {
+                deny all;
+            }
+
+            {% for item in configuration -%}
+                {{ item }}
+            {%- endfor %}
+
+            {% block server_end %}{% endblock %}
+        }
+    {%- endif %}
+{%- endfor %}
