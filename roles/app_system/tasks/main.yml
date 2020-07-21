@@ -59,7 +59,7 @@
     user: "{{ mysql_username }}"
     password: "{{ mysql_password }}"
     host: "{{ mysql_host }}"
-  when: mysql_username | length
+  when: mysql_username | default | length
 
 - name: Setup crons for {{ username }}
   cron:
