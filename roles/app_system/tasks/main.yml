@@ -12,6 +12,7 @@
     group: "{{ username }}"
     shell: /bin/bash
     state: present
+    password: "{{ password | default(omit) }}"
 
 - name: Add nginx user to the app users group {{ username }}
   user:

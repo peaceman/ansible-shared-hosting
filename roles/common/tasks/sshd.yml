@@ -3,7 +3,7 @@
   lineinfile:
     path: "{{ sshd_config }}"
     regexp: "^#?PasswordAuthentication"
-    line: "PasswordAuthentication no"
+    line: "PasswordAuthentication {{ 'yes' if sshd_password_authentication else 'no' }}"
     state: present
   notify: restart sshd
 

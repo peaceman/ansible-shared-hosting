@@ -24,6 +24,7 @@ sshd_hostkeyalgorithms:
   - rsa-sha2-256
   - ssh-ed25519
   - sk-ssh-ed25519@openssh.com
+sshd_password_authentication: no
 
 timezone: Europe/Berlin
 bashrc_config: /etc/bash.bashrc
