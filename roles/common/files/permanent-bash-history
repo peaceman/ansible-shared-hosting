@@ -3,8 +3,13 @@ HISTFILESIZE=-1
 HISTSIZE=-1
 HISTCONTROL=ignoredups
 HISTIGNORE=?:??
-shopt -s histappend                 # append to history, don't overwrite it
+
+# append to history, don't overwrite it
+shopt -s histappend
 # attempt to save all lines of a multiple-line command in the same history entry
 shopt -s cmdhist
 # save multi-line commands to the history with embedded newlines
 shopt -s lithist
+
+# write each command to history and don't wait until the bash session ends
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
