@@ -27,7 +27,7 @@ location ~* ^/setup($|/) {
         fastcgi_connect_timeout 600s;
 
         fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  SCRIPT_FILENAME  $realpath_root$fastcgi_script_name;
         include        fastcgi_params;
     }
 
@@ -48,7 +48,7 @@ location ~* ^/update($|/) {
         fastcgi_split_path_info ^(/update/index.php)(/.+)$;
         fastcgi_pass   {{ username }}-php;
         fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  SCRIPT_FILENAME  $realpath_root$fastcgi_script_name;
         fastcgi_param  PATH_INFO        $fastcgi_path_info;
         include        fastcgi_params;
     }
@@ -159,7 +159,7 @@ location ~ ^/(index|get|static|errors/report|errors/404|errors/503|health_check)
     fastcgi_connect_timeout 600s;
 
     fastcgi_index  index.php;
-    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    fastcgi_param  SCRIPT_FILENAME  $realpath_root$fastcgi_script_name;
     include        fastcgi_params;
 }
 
