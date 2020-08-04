@@ -11,3 +11,8 @@ Uses
 ```
 mysql_port:
 ```
+
+Defines
+```
+mysql_version: 8.0
+```

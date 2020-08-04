@@ -1,2 +1,3 @@
 ---
 # defaults file for server_mysql
+mysql_version: 8.0

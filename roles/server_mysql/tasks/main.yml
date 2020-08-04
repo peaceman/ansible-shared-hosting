@@ -1,5 +1,8 @@
 ---
 # tasks file for server_mysql
+- name: Install official mysql repo
+  include_tasks: repo.yml
+
 - name: Install mysql
   import_role:
     name: geerlingguy.mysql

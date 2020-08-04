@@ -1,0 +1,23 @@
+---
+- name: Configure apt version preferences for mysql {{ mysql_version }}
+  template:
+    src: apt_preferences_mysql.j2
+    dest: /etc/apt/preferences.d/mysql
+
+- name: Add apt key of mysql
+  apt_key:
+    keyserver: pgp.mit.edu
+    id: 5072E1F5
+
+- name: Remove mysql repositories
+  apt_repository:
+    repo: "deb http://repo.mysql.com/apt/ubuntu/ {{ 'bionic' if version == 5.7 else ansible_lsb['codename'] }} mysql-{{ version }}"
+    state: absent
+  loop: "{{ mysql_versions | difference([mysql_version]) | list }}"
+  loop_control:
+    loop_var: version
+
+- name: Add mysql repository {{ mysql_version }}
+  apt_repository:
+    repo: "deb http://repo.mysql.com/apt/ubuntu/ {{ 'bionic' if mysql_version == 5.7 else ansible_lsb['codename'] }} mysql-{{ mysql_version }}"
+    state: present

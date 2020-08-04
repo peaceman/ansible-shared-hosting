@@ -1,2 +1,5 @@
 ---
 # vars file for server_mysql
+mysql_versions:
+  - 5.7
+  - 8.0
