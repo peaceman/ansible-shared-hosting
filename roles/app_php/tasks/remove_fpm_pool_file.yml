@@ -1,0 +1,12 @@
+---
+- name: Remove php fpm pool file {{ php_version }} for {{ username }}
+  file:
+    path: /etc/php/{{ php_version }}/fpm/pool.d/{{ username }}.conf
+    state: absent
+  register: remove_pool_file
+
+- name: Reload php{{ php_version }}-fpm
+  systemd:
+    name: php{{ php_version }}-fpm.service
+    state: reloaded
+  when: remove_pool_file.changed

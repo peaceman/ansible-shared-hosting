@@ -1,5 +1,16 @@
 ---
 # tasks file for app_php
+- name: Determine installed php versions
+  command:
+    cmd: find /etc/php -mindepth 1 -maxdepth 1 -type d -printf '%P\n'
+  register: found_php_versions
+
+- name: Remove php fpm pool file for {{ username }}
+  include_tasks: remove_fpm_pool_file.yml
+  loop: "{{ found_php_versions.stdout_lines }}"
+  loop_control:
+    loop_var: php_version
+
 - name: Configure php fpm pool for {{ username }}
   template:
     src: pool.conf.j2
