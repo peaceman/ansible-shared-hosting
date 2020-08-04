@@ -2,7 +2,7 @@
 - name: Install php {{ php_version }}
   apt:
     state: latest
-    name: "{{ ['php' ~ php_version] | product(php_packages) | map('join', '-') | list }}"
+    name: "{{ ['php' ~ php_version] | product(php_packages_to_install) | product(php_version_packages[php_version] | default([])) | map('join', '-') | list }}"
   notify:
     - restart php {{ php_version }}
 

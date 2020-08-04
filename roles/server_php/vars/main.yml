@@ -6,3 +6,26 @@ php_versions_all:
   - 7.2
   - 7.1
   - 7.0
+
+php_packages_default:
+  - fpm
+  - cli
+  - ctype
+  - curl
+  - dom
+  - iconv
+  - gd
+  - json
+  - mbstring
+  - simplexml
+  - xml
+  - zip
+  - mysql
+  - soap
+  - fileinfo
+  - intl
+  - redis
+  - apcu
+  - bcmath
+
+php_packages_to_install: "{{ php_packages_default + php_packages }}"
