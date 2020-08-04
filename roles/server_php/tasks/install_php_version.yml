@@ -26,3 +26,9 @@
     state: link
   notify:
     - restart php {{ php_version }}
+
+- name: Configure unlimited memory for cli {{ php_version }}
+  copy:
+    dest: /etc/php/{{ php_version }}/cli/conf.d/zz-memlimit.ini
+    content: >
+      memory_limit = -1
