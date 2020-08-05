@@ -7,9 +7,9 @@
 
 - name: Remove php fpm pool file for {{ username }}
   include_tasks: remove_fpm_pool_file.yml
-  loop: "{{ found_php_versions.stdout_lines }}"
+  loop: "{{ found_php_versions.stdout_lines | difference([php_version]) }}"
   loop_control:
-    loop_var: php_version
+    loop_var: version
 
 - name: Configure php fpm pool for {{ username }}
   template:
