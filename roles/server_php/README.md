@@ -15,25 +15,9 @@ Defines
 ```
 php_versions:
   - 7.4
-php_packages:
-  - fpm
-  - cli
-  - ctype
-  - curl
-  - dom
-  - iconv
-  - gd
-  - json
-  - mbstring
-  - simplexml
-  - xml
-  - zip
-  - mysql
-  - soap
-  - fileinfo
-  - intl
-  - redis
-  - apcu
+php_packages: [] # packages to install additionaly to the default  ones
+php_version_packages: # packages to install additionaly for the specified php version
+  "7.4": []
 
 php_post_max_size: 128M
 php_upload_max_filesize: 128M
