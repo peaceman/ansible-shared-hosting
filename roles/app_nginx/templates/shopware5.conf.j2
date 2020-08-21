@@ -114,7 +114,7 @@ location / {
 
 
     ## All static files will be served directly.
-    location ~* ^.+\.(?:css|cur|js|jpe?g|gif|ico|png|svg|webp|html)$ {
+    location ~* ^.+\.(?:css|cur|js|jpe?g|gif|ico|png|svg|webp{{ '|html' if sw5_treat_html_as_static else '' }})$ {
         ## Defining rewrite rules
         rewrite files/documents/.* /engine last;
         rewrite backend/media/(.*) /media/$1 last;
