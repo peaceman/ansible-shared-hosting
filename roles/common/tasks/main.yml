@@ -62,3 +62,6 @@
     src: "bash-aliases.sh.j2"
     dest: "/etc/profile.d/bash-aliases.sh"
     validate: bash -n %s
+
+- name: Configure logrotate for user logs
+  include_tasks: logrotate.yml

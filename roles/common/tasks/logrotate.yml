@@ -1,0 +1,5 @@
+---
+- name: Create logrotate config for user logs
+  template:
+    src: user-logs.conf.j2
+    dest: /etc/logrotate.d/users.conf

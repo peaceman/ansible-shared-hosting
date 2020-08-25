@@ -49,6 +49,7 @@
     - .config/systemd/user
     - .local/bin
     - logs
+    - logs/archive
 
 - name: Create mysql config for {{ username }}
   template:
