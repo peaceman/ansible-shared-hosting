@@ -31,6 +31,7 @@
   copy:
     src: xdg-runtime.sh
     dest: /etc/profile.d/xdg-runtime.sh
+    mode: 0755
 
 - name: Configure sshd
   include_tasks: sshd.yml
