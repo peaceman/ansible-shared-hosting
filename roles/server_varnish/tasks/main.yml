@@ -1,0 +1,30 @@
+---
+# tasks file for server_varnish
+- name: Add apt key of varnish
+  apt_key:
+    url: https://packagecloud.io/varnishcache/varnish64/gpgkey
+    state: present
+
+- name: Add varnish repository
+  apt_repository:
+    repo: deb https://packagecloud.io/varnishcache/varnish64/ubuntu/ {{ ansible_lsb['codename'] }} main
+    state: present
+
+- name: Install varnish
+  apt:
+    state: latest
+    name: varnish
+
+- name: Disable varnish system service
+  systemd:
+    name: "{{ varnish_service }}.service"
+    enabled: no
+    state: stopped
+  when: not varnish_enable_system_service
+
+- name: Enable varnish system service
+  systemd:
+    name: "{{ varnish_server }}.service"
+    enabled: yes
+    state: started
+  when: varnish_enable_system_service

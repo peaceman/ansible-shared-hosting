@@ -1,0 +1,4 @@
+---
+# defaults file for server_varnish
+varnish_service: varnish
+varnish_enable_system_service: false
