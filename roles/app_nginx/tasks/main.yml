@@ -1,5 +1,13 @@
 ---
 # tasks file for app-nginx
+- name: Setup varnish purge frontend hostname in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ username }}-varnish-purge$'
+    line: "{{ nginx_varnish_purge_frontend_ip }} {{ username }}-varnish-purge"
+    state: present
+  when: varnish_enabled
+
 - name: Generate self signed certificate
   include_tasks: certificate_self_signed.yml
   loop: "{{ vhosts_defaulted }}"

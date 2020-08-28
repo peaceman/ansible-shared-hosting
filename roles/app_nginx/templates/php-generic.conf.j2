@@ -4,6 +4,12 @@ upstream {{ username }}-php {
     server unix:/run/php/{{ username }}.sock;
 }
 
+{% if varnish_enabled -%}
+    {% include './partials/varnish-upstream.j2' %}
+
+    {% include './partials/varnish-purge-frontend.j2' %}
+{%- endif %}
+
 {% for vhost in vhosts -%}
     # force tls redirect
     server {
@@ -36,10 +42,19 @@ upstream {{ username }}-php {
     {%- endif %}
 
     {% if not vhost.canonical_domain or vhost.canonical_domain in vhost.domains -%}
+        {% if varnish_enabled -%}
+            {% include './partials/varnish-forward.j2' %}
+        {%- endif %}
+
         # application
         server {
             {% block server_begin %}{% endblock %}
-            {% include './partials/listen-ssl.j2' %}
+
+            {% if varnish_enabled -%}
+                {% include './partials/listen-varnish.j2' %}
+            {% else %}
+                {% include './partials/listen-ssl.j2' %}
+            {%- endif %}
 
             server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 
