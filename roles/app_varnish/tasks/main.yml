@@ -1,0 +1,31 @@
+---
+# tasks file for app_varnish
+- name: Add varnish configuration
+  template:
+    src: "{{ varnish_vcl_template | mandatory }}"
+    dest: /home/{{ username }}/varnish.vcl
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  notify:
+    - restart varnish
+
+- name: Add varnish system service file
+  template:
+    src: varnish.service.j2
+    dest: /home/{{ username }}/.config/systemd/user/varnish.service
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  register: varnish_service_file
+
+- name: Reload systemd daemon
+  include_tasks: systemd_reload.yml
+  when: varnish_service_file.changed
+
+- name: Activate varnish service
+  systemd:
+    scope: user
+    name: varnish.service
+    state: started
+    enabled: yes
+  become: yes
+  become_user: "{{ username }}"

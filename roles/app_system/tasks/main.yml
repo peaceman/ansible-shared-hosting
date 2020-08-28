@@ -50,6 +50,7 @@
     - .local/bin
     - logs
     - logs/archive
+    - .cache
 
 - name: Create mysql config for {{ username }}
   template:

@@ -1,0 +1,9 @@
+---
+# handlers file for app_varnish
+- name: restart varnish
+  systemd:
+    name: varnish.service
+    state: restarted
+    scope: user
+  become: true
+  become_user: "{{ username }}"
