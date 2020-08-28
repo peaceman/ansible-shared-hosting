@@ -1,30 +1,40 @@
 ---
 sshd_config: /etc/ssh/sshd_config
 sshd_service: ssh
-sshd_kexalgorithms:
+sshd_kexalgorithms_default:
   - curve25519-sha256@libssh.org
   - curve25519-sha256
   - diffie-hellman-group-exchange-sha256
   - diffie-hellman-group14-sha256
   - diffie-hellman-group16-sha512
   - diffie-hellman-group18-sha512
-sshd_ciphers:
+sshd_ciphers_default:
   - chacha20-poly1305@openssh.com
   - aes256-gcm@openssh.com
   - aes128-gcm@openssh.com
   - aes256-ctr
   - aes192-ctr
   - aes128-ctr
-sshd_macs:
+sshd_macs_default:
   - hmac-sha2-512-etm@openssh.com
   - hmac-sha2-256-etm@openssh.com
   - umac-128-etm@openssh.com
-sshd_hostkeyalgorithms:
+sshd_hostkeyalgorithms_default:
   - rsa-sha2-512
   - rsa-sha2-256
   - ssh-ed25519
   - sk-ssh-ed25519@openssh.com
+
+sshd_hostkeyalgorithms_bionic:
+  - rsa-sha2-512
+  - rsa-sha2-256
+  - ssh-ed25519
 sshd_password_authentication: no
+
+sshd_kexalgorithms: "{{ lookup('vars', 'sshd_kexalgorithms_' + ansible_lsb['codename'] | lower, default=sshd_kexalgorithms_default) }}"
+sshd_ciphers: "{{ lookup('vars', 'sshd_ciphers_' + ansible_lsb['codename'] | lower, default=sshd_ciphers_default) }}"
+sshd_macs: "{{ lookup('vars', 'sshd_macs_' + ansible_lsb['codename'] | lower, default=sshd_macs_default) }}"
+sshd_hostkeyalgorithms: "{{ lookup('vars', 'sshd_hostkeyalgorithms_' + ansible_lsb['codename'] | lower, default=sshd_hostkeyalgorithms_default) }}"
 
 timezone: Europe/Berlin
 bashrc_config: /etc/bash.bashrc
