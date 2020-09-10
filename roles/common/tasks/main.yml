@@ -5,7 +5,7 @@
 
 - name: Set hostname defined in inventory
   hostname:
-    name: "{{ inventory_hostname }}"
+    name: "{{ hostname | default(inventory_hostname, true) }}"
 
 - name: Update locale to en_US.utf-8
   command:

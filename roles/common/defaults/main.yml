@@ -46,3 +46,5 @@ unattended_email: root
 packages: []
 ssh_keys_root: []
 bash_aliases_global: []
+# optional defaults to inventory_hostname
+hostname:
