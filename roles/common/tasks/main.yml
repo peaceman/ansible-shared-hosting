@@ -3,7 +3,7 @@
   apt:
     update_cache: yes
 
-- name: Set hostname defined in inventory
+- name: Set system hostname
   hostname:
     name: "{{ hostname | default(inventory_hostname, true) }}"
 
