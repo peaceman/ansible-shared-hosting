@@ -10,6 +10,8 @@ upstream {{ username }}-php {
     {% include './partials/varnish-purge-frontend.j2' %}
 {%- endif %}
 
+{% block before_server %}{% endblock %}
+
 {% for vhost in vhosts -%}
     # force tls redirect
     server {

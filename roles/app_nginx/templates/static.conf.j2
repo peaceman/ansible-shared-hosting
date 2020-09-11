@@ -1,5 +1,7 @@
 # {{ ansible_managed }}
 
+{% block before_server %}{% endblock %}
+
 {% for vhost in vhosts -%}
     # force tls redirect
     server {
