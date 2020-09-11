@@ -35,8 +35,9 @@
     - snippets
     - ssl
 
-- name: acme.sh
+- name: Install and configure acme.sh
   include_tasks: acme.yml
+  when: acme_enabled
 
 - name: Configure firewall for nginx
   include_tasks: ufw.yml

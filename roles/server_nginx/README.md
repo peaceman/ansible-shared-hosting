@@ -22,6 +22,8 @@ nginx_user: nginx
 nginx_ssl_dhparam_size: 4096
 nginx_config_dir: /etc/nginx
 
+# if enabled installs and configures acme.sh so it can be used by the app_nginx role
+acme_enabled: true
 acme_path: /root/.acme.sh/acme.sh
 acme_account_email:
 acme_config_base_path: /root/.config/acme

@@ -7,7 +7,9 @@
 
         server_name {{ vhost.domains | join(' ') }};
 
+        {% if acme_enabled %}
         include snippets/acme-stateless-{{ vhost.tls.acme.env }}.conf;
+        {% endif %}
 
         location / {
             return {{ redirect_status_code }}

@@ -5,6 +5,7 @@ nginx_user: nginx
 nginx_ssl_dhparam_size: 4096
 nginx_config_dir: /etc/nginx
 
+acme_enabled: true
 acme_home: /root/.acme.sh
 acme_path: /root/.acme.sh/acme.sh
 acme_account_email:
