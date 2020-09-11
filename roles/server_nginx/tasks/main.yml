@@ -20,10 +20,18 @@
   notify:
     - restart nginx
 
+- name: Configure nginx ssl
+  template:
+    src: nginx-ssl.conf.j2
+    dest: "{{ nginx_config_dir }}/global/ssl.conf"
+  notify:
+    - restart nginx
+
 - name: Generate dhparams file
   command:
     cmd: openssl dhparam -out {{ nginx_config_dir }}/dhparam.pem {{ nginx_ssl_dhparam_size }}
     creates: "{{ nginx_config_dir }}/dhparam.pem"
+  when: nginx_ssl_dhparam_enable
 
 - name: Add nginx folders
   file:

@@ -3,6 +3,7 @@
 nginx_service: nginx
 nginx_user: nginx
 nginx_ssl_dhparam_size: 4096
+nginx_ssl_dhparam_enable: true
 nginx_config_dir: /etc/nginx
 
 acme_enabled: true

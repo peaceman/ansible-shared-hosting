@@ -1,9 +1,11 @@
 ssl_protocols TLSv1.2 TLSv1.3; # TLSv1.3 requires nginx >= 1.13.0 else use TLSv1.2
 
 ssl_prefer_server_ciphers on;
+{% if nginx_ssl_dhparam_enable %}
 ssl_dhparam /etc/nginx/dhparam.pem; # openssl dhparam -out /etc/nginx/dhparam.pem 4096
 ssl_ciphers EECDH+AESGCM:EDH+AESGCM;
 ssl_ecdh_curve secp384r1; # Requires nginx >= 1.1.0
+{% endif %}
 
 ssl_session_timeout  10m;
 ssl_session_cache shared:SSL:10m;
