@@ -22,6 +22,7 @@ Uses
 username:
 nginx_service: nginx
 nginx_config_dir: /etc/nginx
+acme_enabled: true
 acme_config_base_path: /root/.config/acme
 acme_home: /root/.acme.sh
 acme_path: /root/.acme.sh/acme.sh
