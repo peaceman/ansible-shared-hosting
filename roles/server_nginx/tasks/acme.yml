@@ -1,14 +1,3 @@
-- name: Install acme.sh
-  include_tasks: acme_install.yml
-
-- name: Register acme accounts
-  include_tasks: acme_register.yml
-  loop:
-    - production
-    - staging
-  loop_control:
-    loop_var: env
-
 - name: Create acme-stateless nginx snippets
   include_tasks: acme_stateless.yml
   loop:
@@ -16,18 +5,3 @@
     - staging
   loop_control:
     loop_var: env
-
-- name: Store aws credentials for route53
-  blockinfile:
-    path: "{{ acme_home }}/account.conf"
-    marker: "#{mark} ansible permanent bash history"
-    state: present
-    block: |
-      SAVED_AWS_ACCESS_KEY_ID="{{ acme_aws_access_key_id }}"
-      SAVED_AWS_SECRET_ACCESS_KEY="{{ acme_aws_secret_access_key }}"
-
-- name: Store base alias domain
-  copy:
-    dest: "{{ acme_config_base_path }}/base-alias-domain.txt"
-    content: >
-      {{ acme_base_alias_domain }}
