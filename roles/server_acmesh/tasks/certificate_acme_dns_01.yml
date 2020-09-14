@@ -7,9 +7,9 @@
         {{ cert_domains[:1] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \
         --domain-alias {{ cert_name }}.{{ acme_base_alias_domain }} \
         {{ cert_domains[1:] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \
-        {{ '--staging' if tls.acme.env == 'staging' }} \
-        {{ '--force' if tls.acme.force }}
-  when: not source_cert_file.stat.exists or tls.acme.force
+        {{ '--staging' if tlsi.acme.env == 'staging' }} \
+        {{ '--force' if tlsi.acme.force }}
+  when: not source_cert_file.stat.exists or tlsi.acme.force
   register: cert_issue_result
 
 - name: Install certificate {{ cert_name }}

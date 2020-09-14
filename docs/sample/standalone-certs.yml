@@ -1,0 +1,33 @@
+---
+- hosts: web
+  tasks:
+    - import_role:
+        name: peaceman.shared_hosting.server_acmesh
+        tasks_from: certificate.yml
+      vars:
+        cert_name: uni-test
+        cert_domains:
+          - uni-test.at.n2305.link
+        key_file_path: /root/uni-test.key
+        csr_file_path: /root/uni-test.csr
+        cert_file_path: /root/uni-test.crt
+        tls:
+          source: acme
+          acme:
+            env: production
+            challenge: dns-01
+    - import_role:
+        name: peaceman.shared_hosting.server_acmesh
+        tasks_from: certificate.yml
+      vars:
+        cert_name: wc-test
+        cert_domains:
+          - "*.test.at.n2305.link"
+        key_file_path: /root/wc-test.key
+        csr_file_path: /root/wc-test.csr
+        cert_file_path: /root/wc-test.crt
+        tls:
+          source: acme
+          acme:
+            env: staging
+            challenge: dns-01

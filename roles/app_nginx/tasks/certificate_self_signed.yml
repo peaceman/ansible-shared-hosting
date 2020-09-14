@@ -1,5 +1,6 @@
 ---
-- include_role:
+- name: Generate certificate for {{ vhost.name }}
+  include_role:
     name: peaceman.shared_hosting.server_acmesh
     tasks_from: certificate_self_signed.yml
   vars:

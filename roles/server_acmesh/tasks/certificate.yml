@@ -1,8 +1,8 @@
 ---
 - name: Store provided certificate from config for {{ cert_name }}
-  when: tls.source == 'provided'
+  when: tlsi.source == 'provided'
   include_tasks: certificate_provided.yml
 
 - name: Generate certificates with acme {{ cert_name }}
-  when: tls.source == 'acme'
+  when: tlsi.source == 'acme'
   include_tasks: certificate_acme.yml

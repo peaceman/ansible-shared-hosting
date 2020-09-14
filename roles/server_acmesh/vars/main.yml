@@ -1,2 +1,13 @@
 ---
 # vars file for server_acmesh
+tls_defaults:
+  source: self-signed # can be set to one of the following self-signed, acme, provided
+  cert: # used when source is provided
+  key: # used when source is provided
+  acme:
+    env: staging # one of production, staging
+    challenge: dns-01 # one of dns-01, http-01
+    force: false
+
+tls_internal: "{{ tls | peaceman.shared_hosting.rcombine(tls_defaults, recursive=True) }}"
+tlsi: "{{ tls_internal }}"

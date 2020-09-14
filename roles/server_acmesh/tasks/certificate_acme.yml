@@ -20,9 +20,9 @@
     key_value: "" # necessary for the vscode-ansible checker
 
 - name: Generate certificate with acme dns-01 challenge {{ cert_name }}
-  when: tls.acme.challenge == 'dns-01'
+  when: tlsi.acme.challenge == 'dns-01'
   include_tasks: certificate_acme_dns_01.yml
 
 - name: Generate certificate with acme http-01 challenge {{ cert_name }}
-  when: tls.acme.challenge == 'http-01'
+  when: tlsi.acme.challenge == 'http-01'
   include_tasks: certificate_acme_http_01.yml
