@@ -1,0 +1,9 @@
+---
+- name: Create cert file {{ cert_name }}
+  copy:
+    dest: "{{ cert_file_path }}"
+    content: "{{ tls.cert }}"
+- name: Create key file {{ cert_name }}
+  copy:
+    dest: "{{ key_file_path }}"
+    content: "{{ tls.key }}"

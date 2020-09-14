@@ -1,21 +1,21 @@
 ---
-- name: Issue certificate {{ vhost.name }}
+- name: Issue certificate {{ cert_name }}
   command:
     cmd: >
       {{ acme_path }} --issue
       {{ cert_domains | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }}
       --stateless
-      {{ '--staging' if vhost.tls.acme.env == 'staging' }}
-      {{ '--force' if vhost.tls.acme.force }}
-  when: not source_cert_file.stat.exists or vhost.tls.acme.force
+      {{ '--staging' if tls.acme.env == 'staging' }}
+      {{ '--force' if tls.acme.force }}
+  when: not source_cert_file.stat.exists or tls.acme.force
   register: cert_issue_result
 
-- name: Install certificate {{ vhost.name }}
+- name: Install certificate {{ cert_name }}
   command:
     cmd: >
       {{ acme_path }} --install-cert
       {{ cert_domains | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }}
       --key-file {{ key_file_path }}
       --fullchain-file {{ cert_file_path }}
-      --reloadcmd "systemctl reload {{ nginx_service }}.service"
+      {{ '--reloadcmd "' ~ reload_cmd ~ '"' if reload_cmd }}
   when: cert_issue_result.changed

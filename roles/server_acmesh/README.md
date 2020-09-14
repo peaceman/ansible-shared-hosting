@@ -26,3 +26,25 @@ acme_aws_access_key_id:
 acme_aws_secret_access_key:
 acme_base_alias_domain:
 ```
+
+Task Variables: certificate.yml
+-------------------------------
+# used as subdomain for the alias domain during dns-01 challenge
+cert_name:
+cert_domains: []
+
+key_file_path:
+csr_file_path:
+cert_file_path:
+
+# optional, if defined will be triggered from acme.sh after a certificate was updated
+reload_cmd:
+
+tls:
+  source: self-signed # can be set to one of the following self-signed, acme, provided
+  cert: # used when source is provided
+  key: # used when source is provided
+    acme:
+      env: staging # one of production, staging
+      challenge: dns-01 # one of dns-01, http-01
+      force: false

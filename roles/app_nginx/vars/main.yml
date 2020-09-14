@@ -11,12 +11,6 @@ vhost_defaults:
     acme:
       env: staging # one of production, staging
       challenge: dns-01 # one of dns-01, http-01
-      dns:
-        alias_domain:
-        aws:
-          access_key_id:
-          secret_access_key:
-          dns_slowrate:
       force: false
 
 vhosts_defaulted: "{{ cert_groups | map('peaceman.shared_hosting.rcombine', vhost_defaults, recursive=True) | list }}"

@@ -1,29 +1,10 @@
 ---
-- name: Setup cert facts
-  include_tasks: certificate_facts.yml
-
-- name: Check if cert {{ vhost.name }} already exists
-  stat:
-    path: "{{ cert_file_path }}"
-  register: cert_file
-
-- name: Generate self signed cert with name {{ vhost.name }}
-  when: not cert_file.stat.exists
-  block:
-    - name: Generate private key file for {{ vhost.name }}
-      openssl_privatekey:
-        path: "{{ key_file_path }}"
-        cipher: aes256
-        passphrase:
-    - name: Generate CSR file for {{ vhost.name }}
-      openssl_csr:
-        path: "{{ csr_file_path }}"
-        privatekey_path: "{{ key_file_path }}"
-        state: present
-        subject_alt_name: "{{ cert_domains | map('regex_replace', '^', 'DNS:') | list }}"
-    - name: Sign CSR file for {{ vhost.name }} to create a certificate
-      openssl_certificate:
-        path: "{{ cert_file_path }}"
-        privatekey_path: "{{ key_file_path }}"
-        csr_path: "{{ csr_file_path }}"
-        provider: selfsigned
+- include_role:
+    name: peaceman.shared_hosting.server_acmesh
+    tasks_from: certificate_self_signed.yml
+  vars:
+    cert_name: "{{ vhost.name }}"
+    cert_domains: "{{ ['*.' ~ vhost.wildcard_domain, vhost.wildcard_domain] if vhost.wildcard_domain else vhost.domains }}"
+    key_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.key"
+    csr_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.csr"
+    cert_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.crt"

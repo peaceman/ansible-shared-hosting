@@ -1,0 +1,26 @@
+---
+- name: Check if cert {{ cert_name }} already exists
+  stat:
+    path: "{{ cert_file_path }}"
+  register: cert_file
+
+- name: Generate self signed cert with name {{ cert_name }}
+  when: not cert_file.stat.exists
+  block:
+    - name: Generate private key file for {{ cert_name }}
+      openssl_privatekey:
+        path: "{{ key_file_path }}"
+        cipher: aes256
+        passphrase:
+    - name: Generate CSR file for {{ cert_name }}
+      openssl_csr:
+        path: "{{ csr_file_path }}"
+        privatekey_path: "{{ key_file_path }}"
+        state: present
+        subject_alt_name: "{{ cert_domains | map('regex_replace', '^', 'DNS:') | list }}"
+    - name: Sign CSR file for {{ cert_name }} to create a certificate
+      openssl_certificate:
+        path: "{{ cert_file_path }}"
+        privatekey_path: "{{ key_file_path }}"
+        csr_path: "{{ csr_file_path }}"
+        provider: selfsigned

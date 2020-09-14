@@ -1,11 +1,13 @@
 ---
-- name: Setup cert facts
-  include_tasks: certificate_facts.yml
-
-- name: Store provided certificate from config {{ vhost.name }}
-  when: vhost.tls.source == 'provided'
-  include_tasks: certificate_provided.yml
-
-- name: Generate certificates with acme {{ vhost.name }}
-  when: vhost.tls.source == 'acme'
-  include_tasks: certificate_acme.yml
+- name: Generate certificate for {{ vhost.name }}
+  include_role:
+    name: peaceman.shared_hosting.server_acmesh
+    tasks_from: certificate.yml
+  vars:
+    cert_name: "{{ vhost.name }}"
+    cert_domains: "{{ ['*.' ~ vhost.wildcard_domain, vhost.wildcard_domain] if vhost.wildcard_domain else vhost.domains }}"
+    key_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.key"
+    csr_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.csr"
+    cert_file_path: "{{ nginx_config_dir }}/ssl/{{ vhost.name }}.crt"
+    tls: "{{ vhost.tls }}"
+    reload_cmd: "systemctl reload {{ nginx_service }}.service"
