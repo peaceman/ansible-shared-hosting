@@ -7,6 +7,7 @@ autoindex: "off"
 charset: UTF-8
 template: php-generic.conf.j2
 configuration: []
+varnish_configuration: []
 
 # varnish specifics
 varnish_enabled: false

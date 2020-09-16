@@ -5,6 +5,10 @@ server {
 
     server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 
+    {% for item in varnish_configuration -%}
+        {{ item }}
+    {%- endfor %}
+
     location / {
         if ($request_method = PURGE) {
             return 405;
