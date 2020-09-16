@@ -56,6 +56,9 @@ upstream {{ username }}-php {
 
             {% if varnish_enabled -%}
                 {% include './partials/listen-varnish.j2' %}
+
+                gzip off;
+                brotli off;
             {% else %}
                 {% include './partials/listen-ssl.j2' %}
             {%- endif %}
