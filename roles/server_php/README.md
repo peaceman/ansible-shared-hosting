@@ -12,7 +12,7 @@ Role Variables
 --------------
 
 Defines
-```
+```yaml
 php_versions:
   - 7.4
 php_packages: [] # packages to install additionaly to the default  ones
@@ -29,9 +29,18 @@ php_opcache_validate_timestamps: 1
 ```
 
 Uses
-```
+```yaml
 timezone: Europe/Berlin
 nginx_user:
+```
+
+Used by task file install_php_extension.yml
+```yaml
+php_version:
+# full path to the extension so
+extension_file:
+ini_filename:
+ini_content:
 ```
 
 Dependencies

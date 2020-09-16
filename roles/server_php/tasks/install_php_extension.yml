@@ -1,0 +1,21 @@
+---
+- name: Determine the extension dir for php {{ php_version }}
+  shell:
+    cmd: php{{ php_version }} -i | grep extension_dir | awk '{print $NF}'
+  register: extension_dir
+
+- name: Copy extension {{ extension_file }} to {{ extension_dir.stdout }}
+  copy:
+    src: "{{ extension_file }}"
+    dest: "{{ extension_dir.stdout }}"
+    remote_src: true
+
+- name: Create extension ini file {{ ini_filename }}
+  loop: "{{ ['fpm', 'cli'] }}"
+  loop_control:
+    loop_var: sapi
+  copy:
+    dest: /etc/php/{{ php_version }}/{{ sapi }}/conf.d/{{ ini_filename }}
+    content: "{{ ini_content }}"
+  notify:
+    - restart php {{ php_version }}
