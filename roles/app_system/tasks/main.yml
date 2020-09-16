@@ -80,6 +80,30 @@
   loop_control:
     loop_var: cron
 
+- name: Create systemd services files
+  template:
+    dest: /home/{{ username }}/.config/systemd/user/{{ service.name }}.{{ service.type }}
+    src: "{{ service.template }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+  loop: "{{ systemd_services }}"
+  loop_control:
+    loop_var: service
+
+- name: Start systemd service
+  systemd:
+    name: "{{ service.name }}.{{ service.type }}"
+    enabled: "{{ service.enabled | default(true) }}"
+    state: "{{ services.state | default('started') }}"
+    scope: user
+    daemon_reload: true
+    no_block: true
+  become: true
+  become_user: "{{ username }}"
+  loop: "{{ systemd_services }}"
+  loop_control:
+    loop_var: service
+
 - name: Setup authorized ssh keys for {{ username }}
   authorized_key:
     comment: "{{ item.comment | default(omit) }}"
