@@ -14,6 +14,7 @@
   template:
     dest: /etc/php/custom-configs.ini
     src: php_custom_configs.ini.j2
+    mode: 0755
 
 - name: Install php
   loop: "{{ php_versions }}"

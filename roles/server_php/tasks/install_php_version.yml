@@ -30,5 +30,6 @@
 - name: Configure unlimited memory for cli {{ php_version }}
   copy:
     dest: /etc/php/{{ php_version }}/cli/conf.d/zz-memlimit.ini
+    mode: 0755
     content: >
       memory_limit = -1

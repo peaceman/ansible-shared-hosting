@@ -11,11 +11,12 @@
     remote_src: true
 
 - name: Create extension ini file {{ ini_filename }}
-  loop: "{{ ['fpm', 'cli'] }}"
-  loop_control:
-    loop_var: sapi
   copy:
     dest: /etc/php/{{ php_version }}/{{ sapi }}/conf.d/{{ ini_filename }}
     content: "{{ ini_content }}"
+    mode: 0755
+  loop: "{{ ['fpm', 'cli'] }}"
+  loop_control:
+    loop_var: sapi
   notify:
     - restart php {{ php_version }}
