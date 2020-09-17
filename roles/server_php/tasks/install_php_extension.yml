@@ -8,6 +8,7 @@
   copy:
     src: "{{ extension_file }}"
     dest: "{{ extension_dir.stdout }}"
+    mode: 0644
     remote_src: true
 
 - name: Create extension ini file {{ ini_filename }}
