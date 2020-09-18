@@ -22,6 +22,7 @@ Uses
 username:
 nginx_service: nginx
 nginx_config_dir: /etc/nginx
+nginx_brotli_enabled: true
 acme_enabled: true
 acme_config_base_path: /root/.config/acme
 ```

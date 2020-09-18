@@ -5,6 +5,7 @@
 
 - name: Install brotli module
   include_tasks: nginx_brotli.yml
+  when: nginx_brotli_enabled
 
 - name: Configure nginx
   template:
