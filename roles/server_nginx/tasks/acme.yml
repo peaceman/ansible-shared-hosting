@@ -1,3 +1,7 @@
+- name: Install acme.sh
+  import_role:
+    name: peaceman.shared_hosting.server_acmesh
+
 - name: Create acme-stateless nginx snippets
   include_tasks: acme_stateless.yml
   loop:

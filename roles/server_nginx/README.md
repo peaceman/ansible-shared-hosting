@@ -8,15 +8,13 @@ Requirements
 
 Requires root access
 
-If acme_enabled is true, the server_acmesh role has to be run before
-
 Role Variables
 --------------
 
 Uses
 
 ```
-# if enabled creates nginx vhost snippets for acmesh stateless auth
+# if enabled install acmesh and creates nginx vhost snippets for acmesh stateless auth
 acme_enabled: true
 acme_config_base_path: /root/.config/acme
 ```
