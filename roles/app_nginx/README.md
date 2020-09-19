@@ -20,6 +20,7 @@ Uses
 
 ```
 username:
+nginx_user: nginx
 nginx_service: nginx
 nginx_config_dir: /etc/nginx
 nginx_brotli_enabled: true

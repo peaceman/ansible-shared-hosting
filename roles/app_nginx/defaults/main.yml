@@ -16,6 +16,7 @@ nginx_varnish_backend_port: 80
 nginx_varnish_purge_frontend_ip: 127.0.0.22
 nginx_varnish_purge_frontend_port: 80
 
+nginx_user: nginx
 nginx_service: nginx
 nginx_config_dir: /etc/nginx
 nginx_brotli_enabled: true
