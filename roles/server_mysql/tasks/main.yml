@@ -7,6 +7,14 @@
   import_role:
     name: geerlingguy.mysql
 
+- name: Ensure there is a debian.cnf for other programs to use
+  template:
+    src: debian.cnf.j2
+    dest: /etc/mysql/debian.cnf
+    mode: 0600
+    owner: root
+    group: root
+
 - name: Setup mysql backup
   include_tasks: automysqlbackup.yml
 

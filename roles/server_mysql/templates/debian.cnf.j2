@@ -1,0 +1,11 @@
+# Ansible managed
+[client]
+host     = localhost
+user     = root
+password = {{ mysql_root_password }}
+socket   = {{ mysql_socket }}
+[mysql_upgrade]
+host     = localhost
+user     = root
+password = {{ mysql_root_password }}
+socket   = {{ mysql_socket }}
