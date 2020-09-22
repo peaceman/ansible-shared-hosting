@@ -67,7 +67,7 @@
 - name: Setup crons for {{ username }}
   cron:
     name: "{{ cron.name }}"
-    job: bash -l -c {{ cron.job }}
+    job: bash -l -c {{ cron.job | quote }}
     minute: "{{ cron.minute | default(omit) }}"
     hour: "{{ cron.hour | default(omit) }}"
     day: "{{ cron.day | default(omit) }}"
