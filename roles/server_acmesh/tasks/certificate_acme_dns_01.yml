@@ -3,7 +3,7 @@
   shell:
     cmd: |
       {{ acme_path }} --issue \
-        --dns dns_aws \
+        --dns {{ acme_dns_provider }} \
         {{ cert_domains[:1] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \
         --domain-alias {{ cert_name }}.{{ acme_base_alias_domain }} \
         {{ cert_domains[1:] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \

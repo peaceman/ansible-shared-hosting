@@ -10,6 +10,19 @@ acme_account_email:
 # used to access route53
 acme_aws_access_key_id:
 acme_aws_secret_access_key:
+
+# dns provider that should be used by acme.sh for dns validation purposes
+# list of providers: https://github.com/acmesh-official/acme.sh/tree/master/dnsapi
+# https://github.com/acmesh-official/acme.sh/wiki/dnsapi
+acme_dns_provider: dns_aws
+# used to access the different dns providers
+# credentials have to be defined as follows
+# acme_dns_credentials:
+#   - AWS_ACCESS_KEY_ID: redacted
+#     AWS_SECRET_ACCESS_KEY: redacted
+#   - HETZNER_TOKEN: redacted
+acme_dns_credentials: []
+
 acme_base_alias_domain:
 
 reload_cmd:

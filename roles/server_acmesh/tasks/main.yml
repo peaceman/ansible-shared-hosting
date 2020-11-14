@@ -14,11 +14,18 @@
 - name: Store aws credentials for route53
   blockinfile:
     path: "{{ acme_home }}/account.conf"
-    marker: "#{mark} ansible permanent bash history"
+    marker: "#{mark} ansible acme aws configuration"
     state: present
     block: |
       SAVED_AWS_ACCESS_KEY_ID="{{ acme_aws_access_key_id }}"
       SAVED_AWS_SECRET_ACCESS_KEY="{{ acme_aws_secret_access_key }}"
+
+- name: Store dns credentials
+  blockinfile:
+    path: "{{ acme_home }}/account.conf"
+    marker: "#{mark} ansible acme dns configuration"
+    state: present
+    block: "{{ lookup('template', 'dns_creds.j2') }}"
 
 - name: Store base alias domain
   copy:
