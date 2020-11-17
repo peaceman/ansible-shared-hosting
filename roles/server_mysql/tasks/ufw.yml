@@ -11,6 +11,6 @@
     rule: allow
     port: "{{ mysql_port }}"
     comment: allow access from web hosts
-  loop: "{{ ipv6_addresses + ipv4_addresses }}"
+  loop: "{{ ipv6_addresses + ipv4_addresses + (mysql_firewall_exceptions | default()) }}"
   loop_control:
     loop_var: ip

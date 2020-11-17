@@ -10,6 +10,7 @@ Uses
 
 ```
 mysql_port:
+mysql_firewall_exceptions: []
 ```
 
 Defines

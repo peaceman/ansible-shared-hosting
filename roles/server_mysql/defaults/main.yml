@@ -2,3 +2,4 @@
 # defaults file for server_mysql
 mysql_version: 8.0
 mysql_bind_address: "::"
+mysql_firewall_exceptions: []
