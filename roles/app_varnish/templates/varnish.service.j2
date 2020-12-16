@@ -29,4 +29,4 @@ ExecStart=/usr/sbin/varnishd -a /home/{{ username }}/varnish.sock,user={{ userna
 ExecReload=/usr/sbin/varnishreload
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
