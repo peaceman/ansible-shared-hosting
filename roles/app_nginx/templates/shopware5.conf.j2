@@ -178,9 +178,6 @@ location ~ \.php$ {
     #fastcgi_keep_conn on;
 
     include fastcgi_params;
-    {% if varnish_enabled | default(false) %}
-    fastcgi_param REMOTE_ADDR $http_x_real_ip;
-    {% endif %}
     fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
     fastcgi_param SHOPWARE_ENV    $shopware_env if_not_empty;
 
