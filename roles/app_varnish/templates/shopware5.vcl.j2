@@ -8,6 +8,7 @@ import std;
 backend default {
     .host = "{{ nginx_varnish_backend_ip }}";
     .port = "{{ nginx_varnish_backend_port }}";
+    .first_byte_timeout = {{ nginx_varnish_backend_timeout }};
 }
 
 # ACL for purgers IP.
