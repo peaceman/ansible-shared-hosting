@@ -3,6 +3,10 @@ server {
 
     server_name {{ username }}-varnish-purge;
 
+    {% with log_filename='varnish-purge' %}
+        {% include './partials/logs.j2' %}
+    {% endwith %}
+
     location / {
         # Forward request to Varnish.
         proxy_pass http://{{ username }}-varnish;

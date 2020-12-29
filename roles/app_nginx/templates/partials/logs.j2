@@ -1,2 +1,2 @@
-access_log /home/{{ username }}/logs/nginx.access.log;
-error_log  /home/{{ username }}/logs/nginx.error.log;
+access_log /home/{{ username }}/logs/{{ log_filename | default('nginx') }}.access.log;
+error_log /home/{{ username }}/logs/{{ log_filename | default('nginx') }}.error.log;

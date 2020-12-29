@@ -5,6 +5,10 @@ server {
 
     server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 
+    {% with log_filename='varnish-forward' %}
+        {% include './partials/logs.j2' %}
+    {% endwith %}
+
     {% for item in varnish_configuration -%}
         {{ item }}
     {%- endfor %}
