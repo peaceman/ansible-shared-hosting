@@ -17,4 +17,7 @@ Take a look at docs/sample folder for a single host example
 # needed by server_mysql
 - src: geerlingguy.mysql
   version: 3.1.0
+# needed by app_php
+- src: geerlingguy.composer
+  version: 1.9.0
 ```

@@ -1,7 +1,9 @@
 Ansible Role app_php
 =========
 
-Configures a php fpm pool for the given user
+* Configures a php fpm pool for the given user
+* Links the chosen php version for the user
+* Installs a user specific composer version
 
 Requirements
 ------------

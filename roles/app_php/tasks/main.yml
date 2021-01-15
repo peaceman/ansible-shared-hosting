@@ -34,3 +34,11 @@
     dest: /home/{{ username }}/.local/bin/php
     src: "{{ php_binary.stdout }}"
     state: link
+
+- name: Install composer
+  include_role:
+    name: geerlingguy.composer
+  vars:
+    composer_home_owner: "{{ username }}"
+    composer_home_group: "{{ username }}"
+    composer_path: "/home/{{ username }}/.local/bin/composer"
