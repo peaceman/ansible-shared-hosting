@@ -1,0 +1,18 @@
+[Unit]
+Description=SW6 MessageQueue Consumer
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStart=/home/{{ username }}/.local/bin/php bin/console messenger:consume-messages \
+    {{ service.vars.transport | default('default') }} \
+    --time-limit=60 \
+    -vv
+
+Restart=always
+RestartSec=5
+
+WorkingDirectory={{ service.vars.working_directory | default('/home/' ~ username ~ '/app') }}
+
+[Install]
+WantedBy=default.target
