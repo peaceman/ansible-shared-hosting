@@ -27,6 +27,13 @@ acme_aws_secret_access_key:
 acme_base_alias_domain:
 ```
 
+Uses
+
+```
+# If defined will be used instead of cert_name as subdomain part in the acme alias domain
+acme_alias_subdomain:
+```
+
 DNS-01 challenge
 ----------------
 
@@ -34,9 +41,14 @@ set cname
 
 _acme-challenge.$domain -> $certName.$acmeBaseAliasDomain
 
+or if acme_alias_subdomain was defined:
+
+_acme-challenge.$domain -> $acmeAliasSubDomain.$acmeBaseAliasDomain
+
 Task Variables: certificate.yml
 -------------------------------
 # used as subdomain for the alias domain during dns-01 challenge
+# if acme_alias_subdomain is not defined
 cert_name:
 cert_domains: []
 
