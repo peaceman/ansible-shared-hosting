@@ -32,3 +32,12 @@
     dest: "{{ acme_config_base_path }}/base-alias-domain.txt"
     content: >
       {{ acme_base_alias_domain }}
+
+- name: Log configuration
+  blockinfile:
+    path: "{{ acme_home }}/account.conf"
+    marker: "#{mark} ansible acme logging configuration"
+    state: present
+    block: |
+      LOG_FILE="{{ acme_home }}/acme.sh.log"
+      LOG_LEVEL=1
