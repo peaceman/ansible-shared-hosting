@@ -9,16 +9,6 @@
     path: "{{ acme_home }}/{{ first_domain }}/{{ first_domain }}.cer"
   register: source_cert_file
 
-- name: Read acme base domain
-  command: cat {{ acme_config_base_path }}/base-alias-domain.txt
-  register: base_alias_domain_file
-  changed_when: false
-
-- name: Setup acme facts {{ cert_name }}
-  set_fact:
-    acme_base_alias_domain: "{{ base_alias_domain_file.stdout | trim }}"
-    key_value: "" # necessary for the vscode-ansible checker
-
 - name: Generate certificate with acme dns-01 challenge {{ cert_name }}
   when: tlsi.acme.challenge == 'dns-01'
   include_tasks: certificate_acme_dns_01.yml

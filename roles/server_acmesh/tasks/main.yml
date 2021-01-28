@@ -32,6 +32,7 @@
     dest: "{{ acme_config_base_path }}/base-alias-domain.txt"
     content: >
       {{ acme_base_alias_domain }}
+  when: acme_base_alias_domain
 
 - name: Log configuration
   blockinfile:
