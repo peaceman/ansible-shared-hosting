@@ -1,0 +1,12 @@
+---
+- name: Ensure basic auth htpasswd folder exists
+  file:
+    path: "{{ basic_auth_htpasswd_base_path }}"
+    state: directory
+
+- name: Generate basic auth file for realm
+  include_tasks: basic_auth_realm.yml
+  loop: "{{ basic_auth.realms | default({}) | dict2items }}"
+  vars:
+    realm: "{{ item.key }}"
+    users: "{{ item.value }}"

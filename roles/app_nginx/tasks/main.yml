@@ -14,6 +14,9 @@
   loop_control:
     loop_var: vhost
 
+- name: Generate basic auth htpasswd files
+  include_tasks: basic_auth.yml
+
 - name: Add nginx vhost config {{ username }}
   template:
     src: "{{ template }}"

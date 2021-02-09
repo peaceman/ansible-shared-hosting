@@ -13,6 +13,8 @@ Requirements
 
 Requires a previously installed nginx service
 
+basic auth / htpasswd generation requires passlib python lib installed on the target hosts
+
 Role Variables
 --------------
 
@@ -52,6 +54,19 @@ autoindex: "off"
 charset: UTF-8
 template: php-generic.conf.j2
 configuration: []
+
+basic_auth: # optional
+  site_wide_realm: foo # optional, name of the realm that should be used for site wide basic auth
+  realms:
+    foo:
+      - username: peace
+        password: foo
+      - username: man
+        password: bar
+    bar:
+      - username: foo
+        password: peace
+        state: absent
 
 ip_addresses: # optional, if defined will only listen on those addresses
   ipv4: []

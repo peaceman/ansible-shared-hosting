@@ -63,6 +63,8 @@ upstream {{ username }}-php {
                 {% endif %}
             {% else %}
                 {% include './partials/listen-ssl.j2' %}
+
+                {% include './partials/site-wide-basic-auth.j2' %}
             {%- endif %}
 
             server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};

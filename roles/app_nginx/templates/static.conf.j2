@@ -53,6 +53,8 @@
 
             {% include './partials/ssl-cert.j2' %}
 
+            {% include './partials/site-wide-basic-auth.j2' %}
+
             location ~ /\. {
                 deny all;
             }

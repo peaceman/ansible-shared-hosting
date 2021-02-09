@@ -13,5 +13,6 @@ packages_default:
   - git
   - sendmail
   - unzip
+  - python3-passlib
 
 packages_to_install: "{{ packages_default + packages }}"

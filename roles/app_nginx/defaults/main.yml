@@ -25,3 +25,5 @@ acme_config_base_path: /root/.config/acme
 
 # used in shopware5.conf.j2 template
 sw5_treat_html_as_static: true
+
+basic_auth_htpasswd_base_path: /home/{{ username }}/.config/htpasswd

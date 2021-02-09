@@ -1,0 +1,10 @@
+---
+- name: Add user to basic auth realm {{ realm }}
+  community.general.htpasswd:
+    path: "{{ basic_auth_htpasswd_base_path }}/{{ realm }}"
+    name: "{{ u.username }}"
+    password: "{{ u.password }}"
+    state: "{{ u.state | default('present') }}"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: u
