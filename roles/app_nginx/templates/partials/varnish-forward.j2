@@ -3,6 +3,7 @@ server {
     {% include './partials/listen-ssl.j2' %}
     {% include './partials/ssl-cert.j2' %}
     {% include './partials/site-wide-basic-auth.j2' %}
+    {% include './partials/block-exploits.j2' %}
 
     server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 

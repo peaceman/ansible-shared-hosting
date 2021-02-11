@@ -55,6 +55,8 @@
 
             {% include './partials/site-wide-basic-auth.j2' %}
 
+            {% include './partials/block-exploits.j2' %}
+
             location ~ /\. {
                 deny all;
             }
