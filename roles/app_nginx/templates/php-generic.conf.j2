@@ -65,7 +65,6 @@ upstream {{ username }}-php {
                 {% include './partials/listen-ssl.j2' %}
                 {% include './partials/ssl-cert.j2' %}
                 {% include './partials/site-wide-basic-auth.j2' %}
-
                 {% include './partials/block-exploits.j2' %}
             {%- endif %}
 
