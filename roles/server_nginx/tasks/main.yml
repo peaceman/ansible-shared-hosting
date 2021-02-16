@@ -28,6 +28,13 @@
   notify:
     - restart nginx
 
+- name: Configure nginx base proxy settings
+  template:
+    src: proxy.conf.j2
+    dest: "{{ nginx_config_dir }}/global/proxy.conf"
+  notify:
+    - restart nginx
+
 - name: Generate dhparams file
   command:
     cmd: openssl dhparam -out {{ nginx_config_dir }}/dhparam.pem {{ nginx_ssl_dhparam_size }}

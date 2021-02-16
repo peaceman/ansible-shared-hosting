@@ -7,5 +7,9 @@ nginx_ssl_dhparam_size: 4096
 nginx_config_dir: /etc/nginx
 nginx_brotli_enabled: true
 
+nginx_proxy_buffer_size: 128k
+nginx_proxy_buffers: 4 256k
+nginx_proxy_busy_buffers_size: 256k
+
 acme_enabled: true
 acme_config_base_path: /root/.config/acme

@@ -55,6 +55,11 @@ http {
     {% endif %}
 
     ##
+    # Proxy Settings
+    ##
+    include /etc/nginx/global/proxy.conf;
+
+    ##
     # Virtual Host Configs
     ##
     include /etc/nginx/conf.d/*.conf;
