@@ -6,6 +6,10 @@
 - name: Install mysql
   import_role:
     name: geerlingguy.mysql
+  vars:
+    mysql_config_include_files:
+      - src: binlog.cnf
+
 
 - name: Ensure there is a debian.cnf for other programs to use
   template:

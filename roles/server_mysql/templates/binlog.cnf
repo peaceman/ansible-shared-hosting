@@ -1,0 +1,2 @@
+[mysqld]
+binlog_expire_logs_seconds = {{ mysql_binlog_expire_seconds }}
