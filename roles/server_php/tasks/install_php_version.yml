@@ -6,8 +6,8 @@
       {{
         ['php' ~ php_version]
           | product(
-              (php_packages_to_install + (php_version_packages[php_version] | default([])))
-                | difference(php_version_package_exclusions[php_version] | default([]))
+              (php_packages_to_install + (php_version_packages[php_version | string] | default([])))
+                | difference(php_version_package_exclusions[php_version | string] | default([]))
             )
           | map('join', '-')
           | list
