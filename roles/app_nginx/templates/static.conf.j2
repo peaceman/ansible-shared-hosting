@@ -15,7 +15,7 @@
 
         location / {
             return {{ redirect_status_code }}
-                https://{{ vhost.canonical_domain | default('$host', true) }}$request_uri;
+                https://{{ vhost.canonical_domain | default('$host', true) }}{{ '$request_uri' if vhost.canonical_retain_path else '' }};
         }
     }
 
@@ -30,7 +30,7 @@
 
             location / {
                 return {{ redirect_status_code }}
-                    https://{{ vhost.canonical_domain }}$request_uri;
+                    https://{{ vhost.canonical_domain }}{{ '$request_uri' if vhost.canonical_retain_path else '' }};
             }
         }
     {%- endif %}
