@@ -1,7 +1,0 @@
-{% block site_wide_basic_auth %}
-    {% if basic_auth.site_wide_realm | default('') %}
-        {% with realm=basic_auth.site_wide_realm %}
-            {% include './partials/basic-auth.j2' %}
-        {% endwith %}
-    {% endif %}
-{% endblock %}

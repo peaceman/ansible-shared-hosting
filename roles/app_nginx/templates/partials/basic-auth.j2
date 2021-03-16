@@ -1,2 +1,9 @@
-auth_basic "{{ realm }}";
-auth_basic_user_file {{ basic_auth_htpasswd_base_path }}/{{ realm }};
+{% if basic_auth.site_wide_realm | default('') %}
+    {% with realm=basic_auth.site_wide_realm %}
+        {% include './partials/basic-auth-realm.j2' %}
+    {% endwith %}
+{% elif vhost.basic_auth_realm | default('') %}
+    {% with realm=vhost.basic_auth_realm %}
+        {% include './partials/basic-auth-realm.j2' %}
+    {% endwith %}
+{% endif %}
