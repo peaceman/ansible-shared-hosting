@@ -10,7 +10,6 @@
     mysql_config_include_files:
       - src: binlog.cnf
 
-
 - name: Ensure there is a debian.cnf for other programs to use
   template:
     src: debian.cnf.j2

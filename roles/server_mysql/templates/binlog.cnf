@@ -1,2 +1,4 @@
 [mysqld]
+{% if mysql_version is version('8.0', '>=') %}
 binlog_expire_logs_seconds = {{ mysql_binlog_expire_seconds }}
+{% endif %}
