@@ -38,6 +38,7 @@ cert_groups:
     domains: []
     canonical_domain: # optional, has to be contained in domains to get a certificate
     wildcard_domain: # optional, if defined only a certificate for *.$wildcard_domain and $wildcard_domain will be generated
+    basic_auth_realm: # optional, configured realm under basic_auth.realms that should be used for this cert group
     tls:
       source: self-signed # can be set to one of the following self-signed, acme, provided
       cert: # used when source is provided
