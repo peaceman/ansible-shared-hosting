@@ -40,17 +40,18 @@
 
 - name: Ensure existing user sub folders
   file:
-    path: /home/{{ username }}/{{ item }}
+    path: /home/{{ username }}/{{ item.path }}
     state: directory
-    recurse: true
+    mode: "{{ item.mode | default('0750') }}"
     owner: "{{ username }}"
     group: "{{ username }}"
   loop:
-    - .config/systemd/user
-    - .local/bin
-    - logs
-    - logs/archive
-    - .cache
+    - path: .config/systemd/user
+    - path: .local/bin
+    - path: logs
+      mode: '0770'
+    - path: logs/archive
+    - path: .cache
 
 - name: Create mysql config for {{ username }}
   template:
