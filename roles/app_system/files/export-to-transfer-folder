@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+TODAY="$(date +%Y%m%d_%H%M%S)"
+TRANSFER_FOLDER="transfer-${TODAY}"
+APP_FOLDER="${HOME}/app"
+DB_NAME="${DB_NAME:-$USER}"
+
+excludes=( "$@" )
+for v in "${excludes[@]}"; do
+    exclude_opts+=( --exclude="$v" )
+done
+
+mkdir "${TRANSFER_FOLDER}"
+
+{
+    cd "${TRANSFER_FOLDER}"
+
+    echo "dump the database"
+    mysqldump "${DB_NAME}" \
+        --set-gtid-purged=OFF \
+        --routines \
+        --skip-lock-tables \
+        --single-transaction \
+        --no-tablespaces \
+        | sed 's/DEFINER=`[^`]*`@`[^`]*`//' \
+        > "db.sql"
+
+    mkdir app
+    echo "copy the application files"
+    tar -C "${APP_FOLDER}" "${exclude_opts[@]}" -cf - . | tar -C app -xf -
+}

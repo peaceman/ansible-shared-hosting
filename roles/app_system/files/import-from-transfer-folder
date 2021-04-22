@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+TRANSFER_FOLDER="${1?missing transfer folder as first argument}"
+
+APP_FOLDER="${HOME}/app"
+DB_NAME="${DB_NAME:-$USER}"
+
+{
+    cd "${TRANSFER_FOLDER}"
+
+    echo "drop database and create database ${DB_NAME}"
+    mysql -e 'drop database if exists`'"${DB_NAME}"'`; create database `'"${DB_NAME}"'`'
+
+    echo "import database"
+    mysql "${DB_NAME}" < "db.sql"
+
+    echo "delete current app folder"
+    rm -rf "${APP_FOLDER}"
+
+    echo "copy the application files"
+    cp -rf app "${APP_FOLDER}"
+}

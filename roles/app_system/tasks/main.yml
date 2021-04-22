@@ -112,3 +112,6 @@
     state: "{{ item.state | default(omit) }}"
     user: "{{ username }}"
   loop: "{{ ssh_keys }}"
+
+- name: Supply scripts
+  include_tasks: scripts.yml
