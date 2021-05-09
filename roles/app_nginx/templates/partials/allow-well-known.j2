@@ -1,0 +1,5 @@
+# allow access to files in the .well-known folder
+location ^~ /.well-known/ {
+    auth_basic off;
+    allow all;
+}

@@ -58,6 +58,8 @@
                 deny all;
             }
 
+            {% include './partials/allow-well-known.j2' %}
+
             {% for item in configuration -%}
                 {{ item }}
             {%- endfor %}
