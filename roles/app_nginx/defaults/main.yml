@@ -21,6 +21,8 @@ nginx_service: nginx
 nginx_config_dir: /etc/nginx
 nginx_brotli_enabled: true
 nginx_block_exploits_enabled: true
+nginx_sts_enabled: true
+nginx_sts_include_subdomains: true
 acme_enabled: true
 acme_config_base_path: /root/.config/acme
 

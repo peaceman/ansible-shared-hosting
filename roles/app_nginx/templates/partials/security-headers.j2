@@ -1,0 +1,5 @@
+{% block nginx_security_headers %}
+    {% if nginx_sts_enabled %}
+        add_header Strict-Transport-Security "max-age=63072000; {{ 'includeSubDomains;' if nginx_sts_include_subdomains else '' }} preload";
+    {% endif %}
+{% endblock %}

@@ -4,6 +4,7 @@ server {
     {% include './partials/ssl-cert.j2' %}
     {% include './partials/basic-auth.j2' %}
     {% include './partials/block-exploits.j2' %}
+    {% include './partials/security-headers.j2' %}
 
     server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 
