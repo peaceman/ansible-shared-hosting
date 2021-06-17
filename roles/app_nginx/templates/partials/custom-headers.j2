@@ -1,5 +1,8 @@
-{% block nginx_security_headers %}
+{% block nginx_custom_headers %}
     {% if nginx_sts_enabled %}
         add_header Strict-Transport-Security "max-age=63072000; {{ 'includeSubDomains;' if nginx_sts_include_subdomains else '' }} preload";
     {% endif %}
+    {% for header in nginx_custom_headers | default([]) %}
+        add_header {{ header.name }} "{{ header.value }}";
+    {% endfor %}
 {% endblock %}
