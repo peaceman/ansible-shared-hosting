@@ -3,12 +3,15 @@
 - name: Install official mysql repo
   include_tasks: repo.yml
 
+- name: Include mysql binlog configuration
+  ansible.builtin.set_fact:
+    mysql_config_include_files: "{{ mysql_config_include_files + [ item ] }}"
+  loop:
+    - src: binlog.cnf
+
 - name: Install mysql
   import_role:
     name: geerlingguy.mysql
-  vars:
-    mysql_config_include_files:
-      - src: binlog.cnf
 
 - name: Ensure there is a debian.cnf for other programs to use
   template:
