@@ -1,0 +1,18 @@
+---
+- name: Create systemd unit file {{ unit.name }}.{{ unit.type }}
+  template:
+    dest: /home/{{ username }}/.config/systemd/user/{{ unit.name }}.{{ unit.type }}
+    src: "{{ unit.template }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Start systemd unit {{ unit.name }}.{{ unit.type }}
+  systemd:
+    name: "{{ unit.name }}.{{ unit.type }}"
+    enabled: "{{ unit.enabled | default(true) }}"
+    state: "{{ unit.state | default('started') }}"
+    scope: user
+    daemon_reload: true
+    no_block: true
+  become: true
+  become_user: "{{ username }}"
