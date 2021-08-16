@@ -43,3 +43,7 @@
         state: absent
       when: tmp_folder.path is defined
   when: not acme_file.stat.exists
+
+- name: Ensure letsencrypt is set as default ca
+  command:
+    cmd: "{{ acme_path }} --set-default-ca --server letsencrypt"
