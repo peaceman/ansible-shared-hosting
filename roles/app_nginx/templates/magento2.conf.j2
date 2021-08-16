@@ -29,6 +29,8 @@ location ~* ^/setup($|/) {
         fastcgi_index  index.php;
         fastcgi_param  SCRIPT_FILENAME  $realpath_root$fastcgi_script_name;
         include        fastcgi_params;
+
+        {% block php_entrypoint_location %}{% endblock %}
     }
 
     location ~ ^/setup/(?!pub/). {
@@ -161,6 +163,7 @@ location ~ ^/(index|get|static|errors/report|errors/404|errors/503|health_check)
     fastcgi_index  index.php;
     fastcgi_param  SCRIPT_FILENAME  $realpath_root$fastcgi_script_name;
     include        fastcgi_params;
+    {{ self.php_entrypoint_location() }}
 }
 
 gzip on;
