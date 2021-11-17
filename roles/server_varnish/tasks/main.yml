@@ -2,12 +2,12 @@
 # tasks file for server_varnish
 - name: Add apt key of varnish
   apt_key:
-    url: https://packagecloud.io/varnishcache/varnish64/gpgkey
+    url: https://packagecloud.io/varnishcache/{{ varnish_repo_version }}/gpgkey
     state: present
 
 - name: Add varnish repository
   apt_repository:
-    repo: deb https://packagecloud.io/varnishcache/varnish64/ubuntu/ {{ ansible_lsb['codename'] }} main
+    repo: deb https://packagecloud.io/varnishcache/{{ varnish_repo_version }}/ubuntu/ {{ ansible_lsb['codename'] }} main
     state: present
 
 - name: Install varnish
