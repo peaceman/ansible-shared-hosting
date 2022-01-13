@@ -3,6 +3,7 @@
 {% block before_server %}{% endblock %}
 
 {% for vhost in vhosts -%}
+    {% if tls_enabled %}
     # force tls redirect
     server {
         {% include './partials/listen.j2' %}
@@ -18,15 +19,20 @@
                 https://{{ vhost.canonical_domain | default('$host', true) }}{{ '$request_uri' if vhost.canonical_retain_path else '' }};
         }
     }
+    {% endif %}
 
     {% if vhost.canonical_domain -%}
         # force canonical redirect
         server {
-            {% include './partials/listen-ssl.j2' %}
-
             server_name {{ vhost.domains | difference([vhost.canonical_domain]) | join(' ') }};
 
-            {% include './partials/ssl-cert.j2' %}
+            {% if tls_enabled %}
+                {% include './partials/listen-ssl.j2' %}
+                {% include './partials/ssl-cert.j2' %}
+            {% else %}
+                {% include './partials/listen.j2' %}
+            {% endif %}
+
             {% include './partials/custom-headers.j2' %}
 
             location / {
@@ -40,8 +46,14 @@
         # application
         server {
             {% block server_begin %}{% endblock %}
-            {% include './partials/listen-ssl.j2' %}
-            {% include './partials/ssl-cert.j2' %}
+
+            {% if tls_enabled %}
+                {% include './partials/listen-ssl.j2' %}
+                {% include './partials/ssl-cert.j2' %}
+            {% else %}
+                {% include './partials/listen.j2' %}
+            {% endif %}
+
             {% include './partials/basic-auth.j2' %}
             {% include './partials/block-exploits.j2' %}
             {% include './partials/custom-headers.j2' %}

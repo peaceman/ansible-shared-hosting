@@ -8,49 +8,14 @@
     state: present
   when: varnish_enabled
 
-- name: Generate self signed certificate
-  include_tasks: certificate_self_signed.yml
-  loop: "{{ vhosts_defaulted }}"
-  loop_control:
-    loop_var: vhost
-
 - name: Generate basic auth htpasswd files
   include_tasks: basic_auth.yml
 
-- name: Add nginx vhost config {{ username }}
-  template:
-    src: "{{ template }}"
-    dest: "{{ nginx_config_dir }}/sites-available/{{ username }}.conf"
+- include_tasks: vhost.yml
   vars:
     vhosts: "{{ vhosts_defaulted }}"
-    document_root_full: /home/{{ username }}/app/{{ document_root }}
-
-- name: Enable nginx vhost config {{ username }}
-  file:
-    src: "{{ nginx_config_dir }}/sites-available/{{ username }}.conf"
-    dest: "{{ nginx_config_dir }}/sites-enabled/{{ username }}.conf"
-    state: link
-
-- name: Test nginx vhost config {{ username }}
-  command: nginx -t
-  register: nginx_test_result
-  ignore_errors: true
-  changed_when: nginx_test_result.rc != 0
-
-- name: Check nginx test result and revert config if necessary
-  when: nginx_test_result.rc != 0
-  block:
-    - name: Disable faulty nginx vhost config {{ username }}
-      file:
-        path: "{{ nginx_config_dir }}/sites-enabled/{{ username }}.conf"
-        state: absent
-    - name: Trigger play failure caused by invalid nginx vhost config {{ username }}
-      fail:
-
-- name: Reload nginx
-  systemd:
-    name: "{{ nginx_service }}.service"
-    state: reloaded
+    document_root_full: "/home/{{ [username, 'app', document_root] | select() | join('/') }}"
+    vhost_filename: "{{ username }}"
 
 - name: Generate certificate
   include_tasks: certificate.yml

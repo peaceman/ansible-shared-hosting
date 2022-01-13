@@ -1,0 +1,41 @@
+---
+- ansible.builtin.set_fact:
+    vhosts: "{{ cert_groups | map('peaceman.shared_hosting.rcombine', vhost_defaults, recursive=True) | list }}"
+
+- name: Generate self signed certificate
+  include_tasks: certificate_self_signed.yml
+  loop: "{{ vhosts }}"
+  loop_control:
+    loop_var: vhost
+
+- name: Add nginx vhost config {{ vhost_filename }}
+  template:
+    src: "{{ template }}"
+    dest: "{{ nginx_config_dir }}/sites-available/{{ vhost_filename }}.conf"
+
+- name: Enable nginx vhost config {{ vhost_filename }}
+  file:
+    src: "{{ nginx_config_dir }}/sites-available/{{ vhost_filename }}.conf"
+    dest: "{{ nginx_config_dir }}/sites-enabled/{{ vhost_filename }}.conf"
+    state: link
+
+- name: Test nginx vhost config {{ vhost_filename }}
+  command: nginx -t
+  register: nginx_test_result
+  ignore_errors: true
+  changed_when: nginx_test_result.rc != 0
+
+- name: Check nginx test result and revert config if necessary
+  when: nginx_test_result.rc != 0
+  block:
+    - name: Disable faulty nginx vhost config {{ vhost_filename }}
+      file:
+        path: "{{ nginx_config_dir }}/sites-enabled/{{ vhost_filename }}.conf"
+        state: absent
+    - name: Trigger play failure caused by invalid nginx vhost config {{ vhost_filename }}
+      fail:
+
+- name: Reload nginx
+  systemd:
+    name: "{{ nginx_service }}.service"
+    state: reloaded

@@ -8,6 +8,7 @@ charset: UTF-8
 template: php-generic.conf.j2
 configuration: []
 varnish_configuration: []
+tls_enabled: true
 
 # varnish specifics
 varnish_enabled: false
