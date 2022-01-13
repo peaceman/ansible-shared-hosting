@@ -37,6 +37,7 @@ upstream {{ username }}-php {
             server_name {{ vhost.domains | difference([vhost.canonical_domain]) | join(' ') }};
 
             {% include './partials/ssl-cert.j2' %}
+            {% include './partials/custom-headers.j2' %}
 
             location / {
                 return {{ redirect_status_code }}
