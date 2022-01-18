@@ -39,6 +39,11 @@ cert_groups:
     canonical_domain: # optional, has to be contained in domains to get a certificate
     wildcard_domain: # optional, if defined only a certificate for *.$wildcard_domain and $wildcard_domain will be generated
     basic_auth_realm: # optional, configured realm under basic_auth.realms that should be used for this cert group
+    ipv4_enabled: # optional, overrides the role wide ipv4_enabled setting for this set of domains
+    ipv6_enabled: # optional, overrides the role wide ipv6_enabled setting for this set of domains
+    ip_addresses: # optional, overrides the role wide ip_addresses setting for this set of domains
+      ipv4: []
+      ipv6: []
     tls:
       source: self-signed # can be set to one of the following self-signed, acme, provided
       cert: # used when source is provided

@@ -5,6 +5,7 @@ vhost_defaults:
   canonical_domain: # optional, has to be contained in domains to get a certificate
   canonical_retain_path: true
   wildcard_domain: # optional
+  ip_addresses: {}
   tls:
     source: self-signed # can be set to one of the following self-signed, acme, provided
     cert: # used when source is provided

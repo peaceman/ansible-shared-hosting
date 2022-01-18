@@ -9,6 +9,12 @@ template: php-generic.conf.j2
 configuration: []
 varnish_configuration: []
 tls_enabled: true
+ip_addresses:
+  ipv4: []
+  ipv6: []
+
+ipv4_enabled: true
+ipv6_enabled: true
 
 # varnish specifics
 varnish_enabled: false

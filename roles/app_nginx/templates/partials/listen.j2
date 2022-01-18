@@ -1,15 +1,15 @@
-{% if ip_addresses.ipv4 is defined and ip_addresses.ipv4 | length %}
-    {% for ip in ip_addresses.ipv4 %}
+{% if vhost.get('ipv4_enabled', undefined) | default(ipv4_enabled) -%}
+    {% for ip in vhost.ip_addresses.get('ipv4', ip_addresses.get('ipv4', [])) -%}
         listen {{ ip }}:80;
-    {% endfor %}
-{% else %}
-    listen 80;
-{% endif %}
+    {% else %}
+        listen 80;
+    {%- endfor %}
+{%- endif %}
 
-{% if ip_addresses.ipv6 is defined and ip_addresses.ipv6 | length %}
-    {% for ip in ip_addresses.ipv6 %}
+{% if vhost.get('ipv6_enabled', undefined) | default(ipv6_enabled) -%}
+    {% for ip in vhost.ip_addresses.get('ipv6', ip_addresses.get('ipv6', [])) -%}
         listen [{{ ip }}]:80;
-    {% endfor %}
-{% else %}
-    listen [::]:80;
-{% endif %}
+    {% else %}
+        listen [::]:80;
+    {%- endfor %}
+{%- endif %}
