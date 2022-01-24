@@ -4,10 +4,13 @@
     src: apt_preferences_mysql.j2
     dest: /etc/apt/preferences.d/mysql
 
-- name: Add apt key of mysql
-  apt_key:
-    keyserver: pgp.mit.edu
-    id: 5072E1F5
+- name: Add apt keys of mysql
+  apt_key: "{{ item }}"
+  loop:
+    - keyserver: pgp.mit.edu
+      id: 5072E1F5
+    - keyserver: keyserver.ubuntu.com
+      id: 467B942D3A79BD29
 
 - name: Remove mysql repositories
   apt_repository:
