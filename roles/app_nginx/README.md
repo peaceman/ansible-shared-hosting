@@ -44,6 +44,11 @@ cert_groups:
     ip_addresses: # optional, overrides the role wide ip_addresses setting for this set of domains
       ipv4: []
       ipv6: []
+    redirects:
+      - source: # redirection source, will be used in the context of an nginx location block
+        target: # redirection target, will be used as param for the nginx return directive
+        code: 302
+        match_modifier: # optional, used nginx location block modifier
     tls:
       source: self-signed # can be set to one of the following self-signed, acme, provided
       cert: # used when source is provided
@@ -73,6 +78,12 @@ basic_auth: # optional
       - username: foo
         password: peace
         state: absent
+
+redirects:
+  - source: # redirection source, will be used in the context of an nginx location block
+    target: # redirection target, will be used as param for the nginx return directive
+    code: 302
+    match_modifier: # optional, used nginx location block modifier
 
 ip_addresses: # optional, if defined will only listen on those addresses
   ipv4: []

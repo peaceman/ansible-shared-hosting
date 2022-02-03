@@ -6,6 +6,7 @@ vhost_defaults:
   canonical_retain_path: true
   wildcard_domain: # optional
   ip_addresses: {}
+  redirects: []
   tls:
     source: self-signed # can be set to one of the following self-signed, acme, provided
     cert: # used when source is provided

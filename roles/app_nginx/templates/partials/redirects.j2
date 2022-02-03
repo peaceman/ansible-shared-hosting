@@ -1,0 +1,5 @@
+{% for redirect in (redirects | default([])) %}
+location {{ redirect.match_modifier | default('') }} {{ redirect.source | mandatory }} {
+    return {{ redirect.code | default(302) }} {{ redirect.target | mandatory }};
+}
+{% endfor %}

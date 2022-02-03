@@ -113,6 +113,14 @@ upstream {{ username }}-php {
 
             {% include './partials/allow-well-known.j2' %}
 
+            # vhost specific redirects
+            {% with redirects=vhost.redirects -%}
+                {% include './partials/redirects.j2' %}
+            {%- endwith %}
+
+            # app wide redirects
+            {% include './partials/redirects.j2' %}
+
             {% for item in configuration -%}
                 {{ item }}
             {%- endfor %}
