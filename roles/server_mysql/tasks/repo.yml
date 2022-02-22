@@ -7,8 +7,6 @@
 - name: Add apt keys of mysql
   apt_key: "{{ item }}"
   loop:
-    - keyserver: pgp.mit.edu
-      id: 5072E1F5
     - keyserver: keyserver.ubuntu.com
       id: 467B942D3A79BD29
 
