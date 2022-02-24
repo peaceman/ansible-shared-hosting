@@ -4,7 +4,12 @@
   mysql_user:
     name: "{{ username }}"
     password: "{{ password }}"
-    priv: "{{ item }}.*:ALL"
+    priv: >-
+      {{ [
+        item + '.*:ALL',
+        '*.*:SESSION_VARIABLES_ADMIN' if mysql_version is version('8.0', '>=') else '',
+        ] | select() | join('/')
+      }}
     host: "%"
     state: present
   loop: "{{ databases }}"
