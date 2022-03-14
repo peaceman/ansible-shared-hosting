@@ -16,6 +16,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
   register: varnish_service_file
+  notify: restart varnish
 
 - name: Reload systemd daemon
   include_tasks: systemd_reload.yml
