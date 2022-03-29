@@ -7,6 +7,7 @@ listen.group = {{ nginx_user }}
 
 pm = {{ pm_mode }}
 pm.max_children = {{ pm_max_children }}
+pm.max_requests = {{ pm_max_requests }}
 {% if pm_mode == 'dynamic' %}
 pm.start_servers = {{ pm_start_servers }}
 pm.min_spare_servers = {{ pm_min_spare_servers }}

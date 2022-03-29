@@ -5,5 +5,6 @@ pm_max_children: 10
 pm_start_servers: 5
 pm_min_spare_servers: 3
 pm_process_idle_timeout: 10s
+pm_max_requests: 500
 
 fpm_directives: []
