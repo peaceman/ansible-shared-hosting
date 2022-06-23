@@ -31,5 +31,8 @@ pm_start_servers: 5
 pm_min_spare_servers: 3
 pm_process_idle_timeout: 10s
 
+slowlog_enable: false
+slowlog_timeout: 10s
+
 fpm_directives: []
 ```

@@ -18,6 +18,11 @@ pm.process_idle_timeout = {{ pm_process_idle_timeout }}
 php_admin_flag[log_errors] = On
 php_admin_value[error_log] = /home/{{ username }}/logs/php-error.log
 
+{% if slowlog_enable %}
+slowlog = /home/{{ username }}/logs/php-slow.log
+request_slowlog_timeout = {{ slowlog_timeout }}
+{% endif %}
+
 {% for directive in directives %}
 {{ directive }}
 {% endfor %}

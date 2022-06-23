@@ -23,7 +23,7 @@
     name: php{{ php_version }}-fpm.service
     state: reloaded
 
-- name: Determine full path ot php {{ php_version }} binary
+- name: Determine full path of php {{ php_version }} binary
   command:
     cmd: which php{{ php_version }}
   register: php_binary
