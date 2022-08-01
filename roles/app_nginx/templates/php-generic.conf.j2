@@ -17,6 +17,7 @@ upstream {{ username }}-php {
     # force tls redirect
     server {
         {% include './partials/listen.j2' %}
+        {% include './partials/real-ip.j2' %}
 
         server_name {{ vhost.domains | join(' ') }};
 
@@ -43,6 +44,7 @@ upstream {{ username }}-php {
                 {% include './partials/listen.j2' %}
             {% endif %}
 
+            {% include './partials/real-ip.j2' %}
             {% include './partials/custom-headers.j2' %}
 
             location / {
@@ -80,6 +82,8 @@ upstream {{ username }}-php {
                 {% include './partials/block-exploits.j2' %}
                 {% include './partials/custom-headers.j2' %}
             {%- endif %}
+
+            {% include './partials/real-ip.j2' %}
 
             server_name {{ vhost.canonical_domain or vhost.domains | join(' ') }};
 
