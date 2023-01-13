@@ -1,5 +1,10 @@
 ---
 # handlers file for server-php
+- name: restart php 8.2
+  service:
+    name: "php8.2-fpm"
+    state: restarted
+
 - name: restart php 8.1
   service:
     name: "php8.1-fpm"
