@@ -19,7 +19,7 @@
         {{ cert_domains[1:] | map('quote') | map('regex_replace', '^', '-d ') | join(' ') }} \
         {{ '--staging' if tlsi.acme.env == 'staging' }} \
         {{ '--force' if tlsi.acme.force }}
-  when: not source_cert_file.stat.exists or tlsi.acme.force
+  when: not source_cert_file_exists or tlsi.acme.force
   register: cert_issue_result
 
 - name: Install certificate {{ cert_name }}

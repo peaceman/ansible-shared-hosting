@@ -7,7 +7,7 @@
       --stateless
       {{ '--staging' if tlsi.acme.env == 'staging' }}
       {{ '--force' if tlsi.acme.force }}
-  when: not source_cert_file.stat.exists or tlsi.acme.force
+  when: not source_cert_file_exists or tlsi.acme.force
   register: cert_issue_result
 
 - name: Install certificate {{ cert_name }}

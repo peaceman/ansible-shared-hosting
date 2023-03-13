@@ -9,6 +9,14 @@
     path: "{{ acme_home }}/{{ first_domain }}/{{ first_domain }}.cer"
   register: source_cert_file
 
+- name: Check if ecc cert exists in acme.sh folder {{ cert_name }}
+  stat:
+    path: "{{ acme_home }}/{{ first_domain }}_ecc/{{ first_domain }}.cer"
+  register: source_cert_file_ecc
+
+- set_fact:
+    source_cert_file_exists: source_cert_file.stat.exists || source_cert_file_ecc.stat.exists
+
 - name: Generate certificate with acme dns-01 challenge {{ cert_name }}
   when: tlsi.acme.challenge == 'dns-01'
   include_tasks: certificate_acme_dns_01.yml
