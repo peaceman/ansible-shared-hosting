@@ -14,7 +14,8 @@
     path: "{{ acme_home }}/{{ first_domain }}_ecc/{{ first_domain }}.cer"
   register: source_cert_file_ecc
 
-- set_fact:
+- name: Determine if we have an existing rsa or ecc cert file
+  set_fact:
     source_cert_file_exists: source_cert_file.stat.exists || source_cert_file_ecc.stat.exists
 
 - name: Generate certificate with acme dns-01 challenge {{ cert_name }}
