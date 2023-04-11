@@ -5,14 +5,19 @@
     name: "{{ username }}"
     password: "{{ password }}"
     priv: >-
-      {{ [
-        item + '.*:ALL',
-        '*.*:SESSION_VARIABLES_ADMIN' if mysql_version is version('8.0', '>=') else '',
-        ] | select() | join('/')
+      {{
+        (
+          databases | map('regex_replace', '$', '.*:ALL')
+          + [
+            '*.*:' + ([
+              'SESSION_VARIABLES_ADMIN' if mysql_version is version('8.0', '>=') else '',
+              'RELOAD',
+            ] | select() | join(','))
+          ]
+        ) | select() | join('/')
       }}
     host: "%"
     state: present
-  loop: "{{ databases }}"
 
 - name: Create mysql databases
   mysql_db:
