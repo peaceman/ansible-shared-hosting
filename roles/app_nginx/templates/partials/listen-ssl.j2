@@ -1,15 +1,21 @@
+{% set http2_directive=nginx_version | default('0') is version('1.25.1', '>=') %}
+
 {% if vhost.get('ipv4_enabled', undefined) | default(ipv4_enabled) -%}
     {% for ip in vhost.ip_addresses.get('ipv4', ip_addresses.get('ipv4', [])) -%}
-        listen {{ ip }}:443 ssl http2;
+        listen {{ ip }}:443 ssl {% if not http2_directive %}http2{% endif %};
     {% else %}
-        listen 443 ssl http2;
+        listen 443 ssl {% if not http2_directive %}http2{% endif %};
     {%- endfor %}
 {%- endif %}
 
 {% if vhost.get('ipv6_enabled', undefined) | default(ipv6_enabled) -%}
     {% for ip in vhost.ip_addresses.get('ipv6', ip_addresses.get('ipv6', [])) -%}
-        listen [{{ ip }}]:443 ssl http2;
+        listen [{{ ip }}]:443 ssl {% if not http2_directive %}http2{% endif %};
     {% else %}
-        listen [::]:443 ssl http2;
+        listen [::]:443 ssl {% if not http2_directive %}http2{% endif %};
     {%- endfor %}
 {%- endif %}
+
+{% if http2_directive %}
+http2 on;
+{% endif %}

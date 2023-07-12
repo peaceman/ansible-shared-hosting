@@ -1,0 +1,9 @@
+---
+- name: Determine currently installed nginx version
+  ansible.builtin.shell:
+    cmd: nginx -v 2>&1 | sed 's/^.*\///'
+  register: determine_nginx_version
+
+- name: Supply currently installed nginx version as fact
+  ansible.builtin.set_fact:
+    nginx_version: "{{ determine_nginx_version.stdout }}"

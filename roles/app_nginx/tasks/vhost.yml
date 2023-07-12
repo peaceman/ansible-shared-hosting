@@ -2,6 +2,10 @@
 - ansible.builtin.set_fact:
     vhosts: "{{ cert_groups | map('peaceman.shared_hosting.rcombine', vhost_defaults, recursive=True) | list }}"
 
+- ansible.builtin.include_role:
+    name: peaceman.shared_hosting.server_nginx
+    tasks_from: nginx_version.yml
+
 - name: Generate self signed certificate
   include_tasks: certificate_self_signed.yml
   loop: "{{ vhosts }}"
