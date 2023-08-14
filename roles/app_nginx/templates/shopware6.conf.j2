@@ -12,4 +12,8 @@ location /recovery/update/ {
         rewrite . /recovery/update/index.php last;
     }
 }
+
+location /shopware-installer.phar.php {
+    try_files $uri /shopware-installer.phar.php$is_args$args;
+}
 {% endblock %}
