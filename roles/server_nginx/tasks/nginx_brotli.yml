@@ -10,6 +10,7 @@
       - zlib1g
       - zlib1g-dev
       - libssl-dev
+      - cmake
 
 - name: Add mkbrotli script
   copy:
