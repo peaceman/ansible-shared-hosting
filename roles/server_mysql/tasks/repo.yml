@@ -8,7 +8,7 @@
   apt_key: "{{ item }}"
   loop:
     - keyserver: keyserver.ubuntu.com
-      id: 467B942D3A79BD29
+      id: B7B3B788A8D3785C
 
 - name: Remove mysql repositories
   apt_repository:
