@@ -13,6 +13,8 @@ php_version_package_exclusions:
     - json
   "8.2":
     - json
+  "8.3":
+    - json
 
 php_post_max_size: 128M
 php_upload_max_filesize: 128M
